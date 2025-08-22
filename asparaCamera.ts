@@ -1,6 +1,6 @@
 //% weight=100
 //% block="asparaCamera"
-//% icon="\uf06c"
+//% icon="\uf030"
 //% color="#00AAA0"
 namespace asparaCamera {
     /**
