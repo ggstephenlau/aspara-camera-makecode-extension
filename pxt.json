@@ -1,0 +1,22 @@
+{
+    "name": "aspara-camera-makecode-extension",
+    "version": "0.0.1",
+    "description": "A MakeCode extension for the Aspara Camera to perform AI tasks on micro:bit",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "asparaCamera.ts"
+    ],
+    "public": true,
+    "targetVersions": {
+        "target": "7.0.61",
+        "pxt": "11.4.39"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
+}

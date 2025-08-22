@@ -1,0 +1,43 @@
+# Node.js and npm
+node_modules/
+npm-debug.log
+package-lock.json
+
+# PXT build artifacts
+built/
+dist/
+pxt_modules/
+*.jres
+*.uf2
+*.hex
+
+# PXT temporary and cache files
+.pxt/
+pxt.json.bak
+_sim.json
+_sim.svg
+thumbs/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# TypeScript compiled output
+*.js
+*.js.map
+
+# Keep source TypeScript files, README, and essential configs
+!asparaCamera.ts
+!README.md
+!pxt.json
