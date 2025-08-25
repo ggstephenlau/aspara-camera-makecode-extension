@@ -66,7 +66,7 @@ namespace asparaCamera {
     /**
     * Read Green / Red lettuce result
     */
-    //% blockId=read_green_red_result block="Read Green/Red"
+    //% blockId=read_green_red_result block="Read Green/Red Result"
     //% group="Green_Red" weight=101
     export function ReadGreenRedResult(): string {
         let ret = lastResult
