@@ -8,6 +8,15 @@ namespace asparaCamera {
     let lock:boolean = false
     let newdata:boolean = false;
 
+    export enum FullFunction {
+        //% block="none mode"
+        NoneMode = 0x0,
+        //% block="Green/Red"
+        GreenRed = 0x1,
+        //% block="Color Tracking"
+        ColorTracking = 0x2,
+    }
+
     /***********************************************************************************************************************/
     /* Basic Functions                                                                                                     */
     /***********************************************************************************************************************/
@@ -38,26 +47,46 @@ namespace asparaCamera {
         });
     }
 
+    /**
+    * Set the function of asparaCamera
+    */
+    //% blockId=asparaCamera_switch_function block="switch function %func"
+    //% group="Basic" color="#00AAA0" weight=105
+    //% func.fieldEditor="gridpicker"
+    //% func.fieldOptions.columns=3
+    export function switchFunction(func: FullFunction): void {
+        switch(func) {
+            case FullFunction.NoneMode:
+                break;
+            case FullFunction.GreenRed:
+                serial.writeLine("start green red")
+                break;
+            case FullFunction.ColorTracking:
+                serial.writeLine("start color tracking")
+                break;
+        }
+    }
+
     /***********************************************************************************************************************/
     /* Green/Red                                                                                                           */
     /***********************************************************************************************************************/
-    /**
-    * Init detect Green / Red lettuce
-    */
-    //% blockId=green_red_init block="Initialize Green/Red"
-    //% group="Green Red" color="#a3b032" weight=105
-    export function GreenRedInit(): void {
-        serial.writeLine("start green red")
-    }
+    // /**
+    // * Init detect Green / Red lettuce
+    // */
+    // //% blockId=green_red_init block="Initialize Green/Red"
+    // //% group="Green Red" color="#a3b032" weight=105
+    // export function GreenRedInit(): void {
+    //     serial.writeLine("start green red")
+    // }
 
-    /**
-    * Start detect Green / Red lettuce
-    */
-    //% blockId=start_green_red block="Start Green/Red"
-    //% group="Green Red" color="#a3b032" weight=104
-    export function StartGreenRed(): void {
-        serial.writeLine("detect")
-    }
+    // /**
+    // * Start detect Green / Red lettuce
+    // */
+    // //% blockId=start_green_red block="Start Green/Red"
+    // //% group="Green Red" color="#a3b032" weight=104
+    // export function StartGreenRed(): void {
+    //     serial.writeLine("detect")
+    // }
 
     /**
     * Stop detect Green / Red lettuce
@@ -97,50 +126,50 @@ namespace asparaCamera {
         return ret
     }
 
-    /***********************************************************************************************************************/
-    /* Color calibration                                                                                                   */
-    /***********************************************************************************************************************/
-    /**
-    * Init color calibration
-    */
-    //% blockId=color_calibration_init block="Initialize Color Calibration"
-    //% group="Color calibration" color="#b03290" weight=105
-    export function ColorCalibrationInit(): void {
-        serial.writeLine("start color calibration")
-    }
+    // /***********************************************************************************************************************/
+    // /* Color calibration                                                                                                   */
+    // /***********************************************************************************************************************/
+    // /**
+    // * Init color calibration
+    // */
+    // //% blockId=color_calibration_init block="Initialize Color Calibration"
+    // //% group="Color calibration" color="#b03290" weight=105
+    // export function ColorCalibrationInit(): void {
+    //     serial.writeLine("start color calibration")
+    // }
 
-    /**
-    * Stop color calibration
-    */
-    //% blockId=stop_color_calibration block="Stop Color Calibration"
-    //% group="Color calibration" color="#b03290" weight=103
-    export function StopColorCalibration(): void {
-        serial.writeLine("stop color calibration")
-        serial.writeLine("stop color calibration")
-        lastResult = ""
-        newdata = false
-    }
+    // /**
+    // * Stop color calibration
+    // */
+    // //% blockId=stop_color_calibration block="Stop Color Calibration"
+    // //% group="Color calibration" color="#b03290" weight=103
+    // export function StopColorCalibration(): void {
+    //     serial.writeLine("stop color calibration")
+    //     serial.writeLine("stop color calibration")
+    //     lastResult = ""
+    //     newdata = false
+    // }
 
-    /**
-    * Pick color
-    */
-    //% blockId=pick_color block="Pick Color"
-    //% group="Color calibration" color="#b03290" weight=102
-    export function PickColor(): void {
-        serial.writeLine("pick color")
-    }
+    // /**
+    // * Pick color
+    // */
+    // //% blockId=pick_color block="Pick Color"
+    // //% group="Color calibration" color="#b03290" weight=102
+    // export function PickColor(): void {
+    //     serial.writeLine("pick color")
+    // }
 
     /***********************************************************************************************************************/
     /* Color tracking.                                                                                                     */
     /***********************************************************************************************************************/
-    /**
-    * Init color tracking
-    */
-    //% blockId=color_tracking_init block="Initialize Color Tracking"
-    //% group="Color tracking" color="#dcdc14" weight=105
-    export function ColorTrackingInit(): void {
-        serial.writeLine("start color tracking")
-    }
+    // /**
+    // * Init color tracking
+    // */
+    // //% blockId=color_tracking_init block="Initialize Color Tracking"
+    // //% group="Color tracking" color="#dcdc14" weight=105
+    // export function ColorTrackingInit(): void {
+    //     serial.writeLine("start color tracking")
+    // }
 
     /**
     * Stop color tracking
@@ -153,14 +182,14 @@ namespace asparaCamera {
         newdata = false
     }
 
-    /**
-    * Get coordinates
-    */
-    //% blockId=get_coordinates block="Get Coordinates"
-    //% group="Color tracking" color="#dcdc14" weight=103
-    export function GetCoordinates(): void {
-        serial.writeLine("get coordinates")
-    }
+    // /**
+    // * Get coordinates
+    // */
+    // //% blockId=get_coordinates block="Get Coordinates"
+    // //% group="Color tracking" color="#dcdc14" weight=103
+    // export function GetCoordinates(): void {
+    //     serial.writeLine("get coordinates")
+    // }
 
     /**
     * Coordinates ready
