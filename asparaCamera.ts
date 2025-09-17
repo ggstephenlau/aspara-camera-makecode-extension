@@ -8,13 +8,19 @@ namespace asparaCamera {
     let lock:boolean = false
     let newdata:boolean = false;
 
-    export enum FullFunction {
-        //% block="none mode"
-        NoneMode = 0x0,
-        //% block="Green/Red"
-        GreenRed = 0x1,
-        //% block="Color Tracking"
-        ColorTracking = 0x2,
+    export enum ModeEnum {
+        Preview = 0x0,
+        GreenRed,
+        ColorTracking
+    }
+
+    export enum ColorEnum {
+        red = 0x00,
+        green,
+        blue,
+        yellow,
+        black,
+        custom
     }
 
     /***********************************************************************************************************************/
@@ -48,20 +54,21 @@ namespace asparaCamera {
     }
 
     /**
-    * Set the function of asparaCamera
+    * Select the operation mode of asparaCamera
     */
-    //% blockId=asparaCamera_switch_function block="switch function %func"
+    //% blockId=asparaCamera_select_mode block="select %func mode"
     //% group="Basic" color="#00AAA0" weight=105
     //% func.fieldEditor="gridpicker"
     //% func.fieldOptions.columns=3
-    export function switchFunction(func: FullFunction): void {
+    export function selectMode(func: ModeEnum): void {
         switch(func) {
-            case FullFunction.NoneMode:
+            case ModeEnum.Preview:
+                serial.writeLine("start preview")
                 break;
-            case FullFunction.GreenRed:
+            case ModeEnum.GreenRed:
                 serial.writeLine("start green red")
                 break;
-            case FullFunction.ColorTracking:
+            case ModeEnum.ColorTracking:
                 serial.writeLine("start color tracking")
                 break;
         }
@@ -163,33 +170,57 @@ namespace asparaCamera {
     /* Color tracking.                                                                                                     */
     /***********************************************************************************************************************/
     // /**
-    // * Init color tracking
+    // * Stop color tracking
     // */
-    // //% blockId=color_tracking_init block="Initialize Color Tracking"
+    // //% blockId=stop_color_tracking block="Stop Color Tracking"
     // //% group="Color tracking" color="#dcdc14" weight=105
-    // export function ColorTrackingInit(): void {
-    //     serial.writeLine("start color tracking")
+    // export function StopColorTracking(): void {
+    //     serial.writeLine("stop color tracking")
+    //     lastResult = ""
+    //     newdata = false
     // }
 
     /**
-    * Stop color tracking
+    * Color tracking calibrate
     */
-    //% blockId=stop_color_tracking block="Stop Color Tracking"
+    //% blockId=color_tracking_calibrate block="Color Tracking Calibrate"
     //% group="Color tracking" color="#dcdc14" weight=104
-    export function StopColorTracking(): void {
-        serial.writeLine("stop color tracking")
-        lastResult = ""
-        newdata = false
+    export function ColorTrackingCalibrate(): void {
+        serial.writeLine("calibrate")
     }
 
-    // /**
-    // * Get coordinates
-    // */
-    // //% blockId=get_coordinates block="Get Coordinates"
-    // //% group="Color tracking" color="#dcdc14" weight=103
-    // export function GetCoordinates(): void {
-    //     serial.writeLine("get coordinates")
-    // }
+    /**
+    * Color tracking set color
+    */
+    //% blockId=color_tracking_set_color block="Color Tracking Set Color %color"
+    //% group="Color tracking" color="#dcdc14" weight=103
+    //% color.fieldEditor="gridpicker"
+    //% color.fieldOptions.columns=1
+    export function ColorTrackingSetColor(color: ColorEnum): void {
+        let colortext = "";
+
+        switch(color) {
+            case ColorEnum.red:
+                colortext = "red";
+                break;
+            case ColorEnum.green:
+                colortext = "green";
+                break;
+            case ColorEnum.blue:
+                colortext = "blue";
+                break;
+            case ColorEnum.yellow:
+                colortext = "yellow";
+                break;
+            case ColorEnum.black:
+                colortext = "black";
+                break;
+            case ColorEnum.custom:
+                colortext = "custom";
+                break;
+        }
+        serial.writeLine("set color " + colortext)
+    }
 
     /**
     * Coordinates ready
