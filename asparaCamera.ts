@@ -31,6 +31,13 @@ namespace asparaCamera {
         Y2
     }
 
+    export enum ColorTrackCoordEnum {
+        X = 0x00,
+        Y,
+        Width,
+        Height
+    }
+
     /***********************************************************************************************************************/
     /* Basic Functions                                                                                                     */
     /***********************************************************************************************************************/
@@ -242,11 +249,13 @@ namespace asparaCamera {
     }
 
     /**
-    * Color Tracking Read Coordinate X
+    * Color Tracking Read Coordinate
     */
-    //% blockId=color_tracking_read_coordinate_x block="Color Tracking Read Coordinate X"
-    //% group="Color tracking" color="#dcdc14" weight=201
-    export function ColorTrackingReadCoordinateX(): number {
+    //% blockId=color_tracking_read_coordinate block="Color Tracking Read Coordinate %coord"
+    //% group="Color tracking" color="#dcdc14" weight=101
+    //% coord.fieldEditor="gridpicker"
+    //% coord.fieldOptions.columns=1
+    export function ColorTrackingReadCoordinate(coord: ColorTrackCoordEnum): number {
         let retnum = -1;
 
         readNewdata = true;
@@ -256,37 +265,27 @@ namespace asparaCamera {
             if (lastResult.length > 0) {
                 // Parse the JSON string
                 let parsed = JSON.parse(lastResult);
-                // Access the y1 property and return it
-                if (parsed && parsed.x1 !== undefined) {
-                    retnum = parsed.x1;
-                }
-            }
-            lastResult = "";
-            newdata = false;
-            lock = false;
-        }
-        readNewdata = false;
-        return retnum;
-    }
-
-    /**
-    * Color Tracking Read Coordinate Y
-    */
-    //% blockId=color_tracking_read_coordinate_y block="Color Tracking Read Coordinate Y"
-    //% group="Color tracking" color="#dcdc14" weight=201
-    export function ColorTrackingReadCoordinateY(): number {
-        let retnum = -1;
-
-        readNewdata = true;
-        while(lock){ basic.pause(1); };
-        if (!lock) {
-            lock = true;
-            if (lastResult.length > 0) {
-                // Parse the JSON string
-                let parsed = JSON.parse(lastResult);
-                // Access the y1 property and return it
-                if (parsed && parsed.y1 !== undefined) {
-                    retnum = parsed.y1;
+                switch(coord) {
+                    case ColorTrackCoordEnum.X:
+                        if (parsed && parsed.x1 !== undefined) {
+                            retnum = parsed.x1;
+                        }
+                        break;
+                    case ColorTrackCoordEnum.Y:
+                        if (parsed && parsed.y1 !== undefined) {
+                            retnum = parsed.y1;
+                        }
+                        break;
+                    case ColorTrackCoordEnum.Width:
+                        if (parsed && parsed.width !== undefined) {
+                            retnum = parsed.width;
+                        }
+                        break;
+                    case ColorTrackCoordEnum.Height:
+                        if (parsed && parsed.height !== undefined) {
+                            retnum = parsed.height;
+                        }
+                        break;
                 }
             }
             lastResult = "";
