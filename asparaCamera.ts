@@ -11,8 +11,8 @@ namespace asparaCamera {
     export enum ModeEnum {
         Preview = 0x0,
         LineTracking,
-        ColorTracking
-        // GreenRed,
+        ColorTracking,
+        GreenRed
     }
 
     export enum ColorEnum {
@@ -47,7 +47,7 @@ namespace asparaCamera {
      * @param rx Rx pin; eg: SerialPin.P1
      */
     //% blockId=asparaCamera_init block="asparaCamera init tx %tx rx %rx"
-    //% group="Basic" color="#00AAA0" weight=106
+    //% group="Basic" color="#00AAA0" weight=102
     export function asparaCameraInit(tx: SerialPin, rx: SerialPin): void {
         serial.redirect(tx, rx, BaudRate.BaudRate115200);
         serial.setTxBufferSize(64)
@@ -72,7 +72,7 @@ namespace asparaCamera {
     * Select the operation mode of asparaCamera
     */
     //% blockId=asparaCamera_select_mode block="select %func mode"
-    //% group="Basic" color="#00AAA0" weight=105
+    //% group="Basic" color="#00AAA0" weight=101
     //% func.fieldEditor="gridpicker"
     //% func.fieldOptions.columns=3
     export function selectMode(func: ModeEnum): void {
@@ -86,9 +86,9 @@ namespace asparaCamera {
             case ModeEnum.ColorTracking:
                 serial.writeLine("start color tracking")
                 break;
-            // case ModeEnum.GreenRed:
-            //     serial.writeLine("start green red")
-            //     break;
+            case ModeEnum.GreenRed:
+                serial.writeLine("start green red")
+                break;
         }
     }
 
@@ -99,7 +99,7 @@ namespace asparaCamera {
     * Line tracking select color
     */
     //% blockId=line_tracking_select_color block="Line Tracking Select Color"
-    //% group="Line tracking" color="#dc1489" weight=104
+    //% group="Line tracking" color="#dc1489" weight=204
     export function LineTrackingSelectColor(): void {
         serial.writeLine("calibrate")
     }
@@ -108,7 +108,7 @@ namespace asparaCamera {
     * Line tracking set color
     */
     //% blockId=line_tracking_set_color block="Line Tracking Set Color %color"
-    //% group="Line tracking" color="#dc1489" weight=103
+    //% group="Line tracking" color="#dc1489" weight=203
     //% color.fieldEditor="gridpicker"
     //% color.fieldOptions.columns=1
     export function LineTrackingSetColor(color: ColorEnum): void {
@@ -141,7 +141,7 @@ namespace asparaCamera {
     * Line Tracking Coordinates ready
     */
     //% blockId=line_tracking_coordinates_ready block="Line Tracking Coordinates ready"
-    //% group="Line tracking" color="#dc1489" weight=102
+    //% group="Line tracking" color="#dc1489" weight=202
     export function LineTrackingCoordinatesReady(): boolean {
         return newdata;
     }
@@ -150,7 +150,7 @@ namespace asparaCamera {
     * Line Tracking Read Coordinate X
     */
     //% blockId=line_tracking_read_coordinate_x block="Line Tracking Read Coordinate %coordxy"
-    //% group="Line tracking" color="#dc1489" weight=101
+    //% group="Line tracking" color="#dc1489" weight=201
     //% coordxy.fieldEditor="gridpicker"
     //% coordxy.fieldOptions.columns=1
     export function LineTrackingReadCoordinate(coordxy: LineTrackCoordEnum): number {
@@ -201,7 +201,7 @@ namespace asparaCamera {
     * Color tracking select color
     */
     //% blockId=color_tracking_select_color block="Color Tracking Select Color"
-    //% group="Color tracking" color="#dcdc14" weight=204
+    //% group="Color tracking" color="#dcdc14" weight=304
     export function ColorTrackingSelectColor(): void {
         serial.writeLine("calibrate")
     }
@@ -210,7 +210,7 @@ namespace asparaCamera {
     * Color tracking set color
     */
     //% blockId=color_tracking_set_color block="Color Tracking Set Color %color"
-    //% group="Color tracking" color="#dcdc14" weight=203
+    //% group="Color tracking" color="#dcdc14" weight=303
     //% color.fieldEditor="gridpicker"
     //% color.fieldOptions.columns=1
     export function ColorTrackingSetColor(color: ColorEnum): void {
@@ -243,7 +243,7 @@ namespace asparaCamera {
     * Color Tracking Coordinates ready
     */
     //% blockId=color_tracking_coordinates_ready block="Color Tracking Coordinates ready"
-    //% group="Color tracking" color="#dcdc14" weight=202
+    //% group="Color tracking" color="#dcdc14" weight=302
     export function ColorTrackingCoordinatesReady(): boolean {
         return newdata;
     }
@@ -252,7 +252,7 @@ namespace asparaCamera {
     * Color Tracking Read Coordinate
     */
     //% blockId=color_tracking_read_coordinate block="Color Tracking Read Coordinate %coord"
-    //% group="Color tracking" color="#dcdc14" weight=101
+    //% group="Color tracking" color="#dcdc14" weight=301
     //% coord.fieldEditor="gridpicker"
     //% coord.fieldOptions.columns=1
     export function ColorTrackingReadCoordinate(coord: ColorTrackCoordEnum): number {
@@ -295,54 +295,36 @@ namespace asparaCamera {
         readNewdata = false;
         return retnum;
     }
-}
 
     /***********************************************************************************************************************/
     /* Green/Red                                                                                                           */
     /***********************************************************************************************************************/
-    // /**
-    // * Init detect Green / Red lettuce
-    // */
-    // //% blockId=green_red_init block="Initialize Green/Red"
-    // //% group="Green Red" color="#a3b032" weight=105
-    // export function GreenRedInit(): void {
-    //     serial.writeLine("start green red")
-    // }
+    /**
+    * Green/Red result ready
+    */
+    //% blockId=green_red_ready block="Green/Red result ready"
+    //% group="Green Red" color="#316240" weight=402
+    export function GreenRedResultReady(): boolean {
+        return newdata;
+    }
 
-    // /**
-    // * Start detect Green / Red lettuce
-    // */
-    // //% blockId=start_green_red block="Start Green/Red"
-    // //% group="Green Red" color="#a3b032" weight=104
-    // export function StartGreenRed(): void {
-    //     serial.writeLine("detect")
-    // }
-
-    // /**
-    // * Green / Red result ready
-    // */
-    // //% blockId=green_red_ready block="Green/Red result ready"
-    // //% group="Green Red" color="#a3b032" weight=102
-    // export function GreenRedResultReady(): boolean {
-    //     return newdata;
-    // }
-
-    // /**
-    // * Read Green / Red lettuce result
-    // */
-    // //% blockId=read_green_red_result block="Read Green/Red Result"
-    // //% group="Green Red" color="#a3b032" weight=101
-    // export function ReadGreenRedResult(): string {
-    //     let ret = ""
-    //     readNewdata = true;
-    //     while(lock){ basic.pause(1); };
-    //     if (!lock) {
-    //         lock = true;
-    //         ret = lastResult
-    //         lastResult = ""
-    //         newdata = false
-    //         lock = false;
-    //     }
-    //     readNewdata = false;
-    //     return ret
-    // }
+    /**
+    * Read Green/Red lettuce result
+    */
+    //% blockId=green_red_result block="Read Green/Red result"
+    //% group="Green Red" color="#316240" weight=401
+    export function ReadGreenRedResult(): string {
+        let ret = ""
+        readNewdata = true;
+        while(lock){ basic.pause(1); };
+        if (!lock) {
+            lock = true;
+            ret = lastResult
+            lastResult = ""
+            newdata = false
+            lock = false;
+        }
+        readNewdata = false;
+        return ret
+    }
+}
