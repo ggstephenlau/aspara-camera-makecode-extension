@@ -89,11 +89,11 @@ namespace asparaCamera {
     /* Line tracking.                                                                                                     */
     /***********************************************************************************************************************/
     /**
-    * Line tracking calibrate
+    * Line tracking select color
     */
-    //% blockId=line_tracking_calibrate block="Line Tracking Calibrate"
+    //% blockId=line_tracking_select_color block="Line Tracking Select Color"
     //% group="Line tracking" color="#dc1489" weight=104
-    export function LineTrackingCalibrate(): void {
+    export function LineTrackingSelectColor(): void {
         serial.writeLine("calibrate")
     }
 
@@ -191,11 +191,11 @@ namespace asparaCamera {
     /* Color tracking.                                                                                                     */
     /***********************************************************************************************************************/
     /**
-    * Color tracking calibrate
+    * Color tracking select color
     */
-    //% blockId=color_tracking_calibrate block="Color Tracking Calibrate"
+    //% blockId=color_tracking_select_color block="Color Tracking Select Color"
     //% group="Color tracking" color="#dcdc14" weight=204
-    export function ColorTrackingCalibrate(): void {
+    export function ColorTrackingSelectColor(): void {
         serial.writeLine("calibrate")
     }
 
