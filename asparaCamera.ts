@@ -24,6 +24,13 @@ namespace asparaCamera {
         custom
     }
 
+    export enum LineTrackCoordEnum {
+        X1 = 0x00,
+        X2,
+        Y1,
+        Y2
+    }
+
     /***********************************************************************************************************************/
     /* Basic Functions                                                                                                     */
     /***********************************************************************************************************************/
@@ -135,9 +142,11 @@ namespace asparaCamera {
     /**
     * Line Tracking Read Coordinate X
     */
-    //% blockId=line_tracking_read_coordinate_x block="Line Tracking Read Coordinate X"
+    //% blockId=line_tracking_read_coordinate_x block="Line Tracking Read Coordinate %coordxy"
     //% group="Line tracking" color="#dc1489" weight=101
-    export function LineTrackingReadCoordinateX(): number {
+    //% coordxy.fieldEditor="gridpicker"
+    //% coordxy.fieldOptions.columns=1
+    export function LineTrackingReadCoordinate(coordxy: LineTrackCoordEnum): number {
         let retnum = -1;
 
         readNewdata = true;
@@ -147,37 +156,27 @@ namespace asparaCamera {
             if (lastResult.length > 0) {
                 // Parse the JSON string
                 let parsed = JSON.parse(lastResult);
-                // Access the y1 property and return it
-                if (parsed && parsed.x1 !== undefined) {
-                    retnum = parsed.x1;
-                }
-            }
-            lastResult = "";
-            newdata = false;
-            lock = false;
-        }
-        readNewdata = false;
-        return retnum;
-    }
-
-    /**
-    * Line Tracking Read Coordinate Y
-    */
-    //% blockId=line_tracking_read_coordinate_y block="Line Tracking Read Coordinate Y"
-    //% group="Line tracking" color="#dc1489" weight=101
-    export function LineTrackingReadCoordinateY(): number {
-        let retnum = -1;
-
-        readNewdata = true;
-        while(lock){ basic.pause(1); };
-        if (!lock) {
-            lock = true;
-            if (lastResult.length > 0) {
-                // Parse the JSON string
-                let parsed = JSON.parse(lastResult);
-                // Access the y1 property and return it
-                if (parsed && parsed.y1 !== undefined) {
-                    retnum = parsed.y1;
+                switch(coordxy) {
+                    case LineTrackCoordEnum.X1:
+                        if (parsed && parsed.x1 !== undefined) {
+                            retnum = parsed.x1;
+                        }
+                        break;
+                    case LineTrackCoordEnum.X2:
+                        if (parsed && parsed.x2 !== undefined) {
+                            retnum = parsed.x2;
+                        }
+                        break;
+                    case LineTrackCoordEnum.Y1:
+                        if (parsed && parsed.y1 !== undefined) {
+                            retnum = parsed.y1;
+                        }
+                        break;
+                    case LineTrackCoordEnum.Y2:
+                        if (parsed && parsed.y2 !== undefined) {
+                            retnum = parsed.y2;
+                        }
+                        break;
                 }
             }
             lastResult = "";
