@@ -72,7 +72,7 @@ namespace asparaCamera {
     /**
     * Select the operation mode of asparaCamera
     */
-    //% blockId=asparaCamera_select_mode block="select mode %func"
+    //% blockId=asparaCamera_select_mode block="Select Mode %func"
     //% group="Basic" color="#00AAA0" weight=101
     //% func.fieldEditor="gridpicker"
     //% func.fieldOptions.columns=3
@@ -142,22 +142,22 @@ namespace asparaCamera {
     }
 
     /**
-    * Line Tracking Coordinates ready
+    * Line Tracking Coordinates Ready
     */
-    //% blockId=line_tracking_coordinates_ready block="Line Tracking Coordinates ready"
+    //% blockId=line_tracking_coordinates_ready block="Line Tracking Coordinates Ready"
     //% group="Line tracking" color="#dc1489" weight=202
     export function LineTrackingCoordinatesReady(): boolean {
         return newdata;
     }
 
     /**
-    * Line Tracking Read Coordinate X
+    * Line Tracking Get Coordinate X
     */
-    //% blockId=line_tracking_read_coordinate_x block="Line Tracking Read Coordinate %coordxy"
+    //% blockId=line_tracking_get_coordinate_x block="Line Tracking Get Coordinate %coordxy"
     //% group="Line tracking" color="#dc1489" weight=201
     //% coordxy.fieldEditor="gridpicker"
     //% coordxy.fieldOptions.columns=1
-    export function LineTrackingReadCoordinate(coordxy: LineTrackCoordEnum): number {
+    export function LineTrackingGetCoordinate(coordxy: LineTrackCoordEnum): number {
         let retnum = -1;
 
         readNewdata = true;
@@ -244,22 +244,22 @@ namespace asparaCamera {
     }
 
     /**
-    * Color Tracking Coordinates ready
+    * Color Tracking Coordinates Ready
     */
-    //% blockId=color_tracking_coordinates_ready block="Color Tracking Coordinates ready"
+    //% blockId=color_tracking_coordinates_ready block="Color Tracking Coordinates Ready"
     //% group="Color tracking" color="#dcdc14" weight=302
     export function ColorTrackingCoordinatesReady(): boolean {
         return newdata;
     }
 
     /**
-    * Color Tracking Read Coordinate
+    * Color Tracking Get Coordinate
     */
-    //% blockId=color_tracking_read_coordinate block="Color Tracking Read Coordinate %coord"
+    //% blockId=color_tracking_get_coordinate block="Color Tracking Get Coordinate %coord"
     //% group="Color tracking" color="#dcdc14" weight=301
     //% coord.fieldEditor="gridpicker"
     //% coord.fieldOptions.columns=1
-    export function ColorTrackingReadCoordinate(coord: ColorTrackCoordEnum): number {
+    export function ColorTrackingGetCoordinate(coord: ColorTrackCoordEnum): number {
         let retnum = -1;
 
         readNewdata = true;
@@ -304,20 +304,20 @@ namespace asparaCamera {
     /* Green/Red Lettuce                                                                                                   */
     /***********************************************************************************************************************/
     /**
-    * Green/Red Lettuce result ready
+    * Green/Red Lettuce Result Ready
     */
-    //% blockId=green_red_ready block="Green/Red Lettuce result ready"
+    //% blockId=green_red_ready block="Green/Red Lettuce Result Ready"
     //% group="Green Red Lettuce" color="#316240" weight=402
     export function GreenRedLettuceResultReady(): boolean {
         return newdata;
     }
 
     /**
-    * Read Green/Red Lettuce result
+    * Get Green/Red Lettuce result
     */
-    //% blockId=green_red_result block="Read Green/Red Lettuce result"
+    //% blockId=green_red_result block="Get Green/Red Lettuce result"
     //% group="Green Red Lettuce" color="#316240" weight=401
-    export function ReadGreenRedLettuceResult(): string {
+    export function GetGreenRedLettuceResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -339,36 +339,36 @@ namespace asparaCamera {
      * Adds a custom label to an image in the Image Classification.
      * @param label The arbitrary name to associate with the captured image.
      */
-    //% blockId=image_classification_add_label block="Image classification add label #%label"
+    //% blockId=image_classification_add_label block="Take Image For Label #%label"
     //% group="Image Classification" color="#0c9eed" weight=504
     export function ImageClassificationAddLabel(label: string): void {
         serial.writeLine("tag #" + label);
     }
 
     /**
-    * Image reset all labels
+    * Image classification clear all labels
     */
-    //% blockId=image_classification_reset_all_labels block="Image Classification reset all labels"
+    //% blockId=image_classification_clear_all_labels block="Image Classification Clear All Labels"
     //% group="Image Classification" color="#0c9eed" weight=503
-    export function ImageClassificationResetAllLabel(): void {
+    export function ImageClassificationClearAllLabel(): void {
         serial.writeLine("tag #reset");
     }
 
     /**
-    * Image classification label ready
+    * Image classification result ready
     */
-    //% blockId=image_classification_label_ready block="Image Classification label ready"
+    //% blockId=image_classification_result_ready block="Image Classification Result Ready"
     //% group="Image Classification" color="#0c9eed" weight=502
-    export function ImageClassificationLabelReady(): boolean {
+    export function ImageClassificationResultReady(): boolean {
         return newdata;
     }
 
     /**
-    * Read Image classification label
+    * Get Image classification result
     */
-    //% blockId=image_classification_read_label block="Image Classification read label"
+    //% blockId=image_classification_read_label block="Image Classification Get Result"
     //% group="Image Classification" color="#0c9eed" weight=501
-    export function ImageClassificationReadLabel(): string {
+    export function ImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
