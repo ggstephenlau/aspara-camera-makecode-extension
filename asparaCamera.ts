@@ -12,7 +12,8 @@ namespace asparaCamera {
         Preview = 0x0,
         LineTracking,
         ColorTracking,
-        GreenRed
+        GreenRedLettuce,
+        ImageClassification
     }
 
     export enum ColorEnum {
@@ -71,7 +72,7 @@ namespace asparaCamera {
     /**
     * Select the operation mode of asparaCamera
     */
-    //% blockId=asparaCamera_select_mode block="select %func mode"
+    //% blockId=asparaCamera_select_mode block="select mode %func"
     //% group="Basic" color="#00AAA0" weight=101
     //% func.fieldEditor="gridpicker"
     //% func.fieldOptions.columns=3
@@ -86,8 +87,11 @@ namespace asparaCamera {
             case ModeEnum.ColorTracking:
                 serial.writeLine("start color tracking")
                 break;
-            case ModeEnum.GreenRed:
+            case ModeEnum.GreenRedLettuce:
                 serial.writeLine("start green red")
+                break;
+            case ModeEnum.ImageClassification:
+                serial.writeLine("start runtime classification")
                 break;
         }
     }
@@ -297,23 +301,74 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Green/Red                                                                                                           */
+    /* Green/Red Lettuce                                                                                                   */
     /***********************************************************************************************************************/
     /**
-    * Green/Red result ready
+    * Green/Red Lettuce result ready
     */
-    //% blockId=green_red_ready block="Green/Red result ready"
-    //% group="Green Red" color="#316240" weight=402
-    export function GreenRedResultReady(): boolean {
+    //% blockId=green_red_ready block="Green/Red Lettuce result ready"
+    //% group="Green Red Lettuce" color="#316240" weight=402
+    export function GreenRedLettuceResultReady(): boolean {
         return newdata;
     }
 
     /**
-    * Read Green/Red lettuce result
+    * Read Green/Red Lettuce result
     */
-    //% blockId=green_red_result block="Read Green/Red result"
-    //% group="Green Red" color="#316240" weight=401
-    export function ReadGreenRedResult(): string {
+    //% blockId=green_red_result block="Read Green/Red Lettuce result"
+    //% group="Green Red Lettuce" color="#316240" weight=401
+    export function ReadGreenRedLettuceResult(): string {
+        let ret = ""
+        readNewdata = true;
+        while(lock){ basic.pause(1); };
+        if (!lock) {
+            lock = true;
+            ret = lastResult
+            lastResult = ""
+            newdata = false
+            lock = false;
+        }
+        readNewdata = false;
+        return ret
+    }
+
+    /***********************************************************************************************************************/
+    /* Image Classification                                                                                                */
+    /***********************************************************************************************************************/
+    /**
+     * Adds a custom label to an image in the Image Classification.
+     * @param label The arbitrary name to associate with the captured image.
+     */
+    //% blockId=image_classification_add_label block="Image classification add label #%label"
+    //% group="Image Classification" color="#0c9eed" weight=504
+    export function ImageClassificationAddLabel(label: string): void {
+        serial.writeLine("tag #" + label);
+    }
+
+    /**
+    * Image reset all labels
+    */
+    //% blockId=image_classification_reset_all_labels block="Image Classification reset all labels"
+    //% group="Image Classification" color="#0c9eed" weight=503
+    export function ImageClassificationResetAllLabel(): void {
+        serial.writeLine("tag #reset");
+    }
+
+    /**
+    * Image classification label ready
+    */
+    //% blockId=image_classification_label_ready block="Image Classification label ready"
+    //% group="Image Classification" color="#0c9eed" weight=502
+    export function ImageClassificationLabelReady(): boolean {
+        return newdata;
+    }
+
+    /**
+    * Read Image classification label
+    */
+    //% blockId=image_classification_read_label block="Image Classification read label"
+    //% group="Image Classification" color="#0c9eed" weight=501
+    export function ImageClassificationReadLabel(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
