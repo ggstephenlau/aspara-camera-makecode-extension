@@ -13,7 +13,8 @@ namespace asparaCamera {
         LineTracking,
         ColorTracking,
         GreenRedLettuce,
-        ImageClassification
+        ImageClassification,
+        FaceDetection
     }
 
     export enum ColorEnum {
@@ -92,6 +93,9 @@ namespace asparaCamera {
                 break;
             case ModeEnum.ImageClassification:
                 serial.writeLine("start runtime classification")
+                break;
+            case ModeEnum.FaceDetection:
+                serial.writeLine("start detect face")
                 break;
         }
     }
@@ -380,6 +384,41 @@ namespace asparaCamera {
             lock = false;
         }
         readNewdata = false;
+        return ret
+    }
+
+    /***********************************************************************************************************************/
+    /* Face Detection.                                                                                                     */
+    /***********************************************************************************************************************/
+    /**
+    * Face Detection Result Ready
+    */
+    //% blockId=face_detection_ready block="Face Detection Result Ready"
+    //% group="Face Detection" color="#be17a3" weight=602
+    export function FaceDetectionResultReady(): boolean {
+        return newdata;
+    }
+
+    /**
+    * Get Face Detection result
+    */
+    //% blockId=face_detection_result block="Get Face Detection result"
+    //% group="Face Detection" color="#be17a3" weight=601
+    export function GetFaceDetectionResult(): number {
+        let ret = 0
+        // readNewdata = true;
+        // while(lock){ basic.pause(1); };
+        // if (!lock) {
+        //     lock = true;
+        //     ret = parseInt(lastResult.split(" ")[0])
+        //     lastResult = ""
+        //     newdata = false
+        //     lock = false;
+        // }
+        // readNewdata = false;
+        // For this case, don't use the lock mechanism to speed up the response
+        let lastResultcpy = lastResult
+        ret = parseInt(lastResultcpy.split(" ")[0])
         return ret
     }
 }
