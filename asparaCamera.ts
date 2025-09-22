@@ -16,7 +16,8 @@ namespace asparaCamera {
         ImageClassification,
         FaceDetection,
         SmileDetection,
-        ScanNumber
+        ScanNumber,
+        ScanAlphabet
     }
 
     export enum ColorEnum {
@@ -104,6 +105,9 @@ namespace asparaCamera {
                 break;
             case ModeEnum.ScanNumber:
                 serial.writeLine("start scan numbers")
+                break;
+            case ModeEnum.ScanAlphabet:
+                serial.writeLine("start scan alphabet")
                 break;
         }
     }
@@ -421,5 +425,19 @@ namespace asparaCamera {
         let lastResultcpy = lastResult
         ret = parseInt(lastResultcpy)
         return ret
+    }
+    
+    /***********************************************************************************************************************/
+    /* Scan Alphabet.                                                                                                     */
+    /***********************************************************************************************************************/
+    /**
+    * Scan Alphabet Get Result
+    */
+    //% blockId=scan_alphabet_result block="Scan Alphabet Get Result"
+    //% group="Scan Alphabet" color="#763335" weight=801
+    export function ScanAlphabetGetResult(): string {
+        // For this case, don't use the lock mechanism to speed up the response
+        let lastResultcpy = lastResult
+        return lastResultcpy
     }
 }
