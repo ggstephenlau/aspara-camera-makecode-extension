@@ -452,7 +452,7 @@ namespace asparaCamera {
     * Scan QrBarCode Get Result
     */
     //% blockId=scan_qr_bar_code_result block="Scan QR/BarCode Get Result"
-    //% group="Scan QrBarCode" color="#0d99b5" weight=901
+    //% group="Scan QrBarCode" color="#063a0d" weight=901
     export function ScanQrBarCodeGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
