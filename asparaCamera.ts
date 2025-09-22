@@ -15,7 +15,8 @@ namespace asparaCamera {
         GreenRedLettuce,
         ImageClassification,
         FaceDetection,
-        SmileDetection
+        SmileDetection,
+        ScanNumber
     }
 
     export enum ColorEnum {
@@ -100,6 +101,9 @@ namespace asparaCamera {
                 break;
             case ModeEnum.SmileDetection:
                 serial.writeLine("start smile")
+                break;
+            case ModeEnum.ScanNumber:
+                serial.writeLine("start scan numbers")
                 break;
         }
     }
@@ -303,11 +307,11 @@ namespace asparaCamera {
     /* Green/Red Lettuce                                                                                                   */
     /***********************************************************************************************************************/
     /**
-    * Get Green/Red Lettuce result
+    * Green/Red Lettuce Get Result
     */
-    //% blockId=green_red_result block="Get Green/Red Lettuce result"
+    //% blockId=green_red_result block="Green/Red Lettuce Get Result"
     //% group="Green Red Lettuce" color="#316240" weight=401
-    export function GetGreenRedLettuceResult(): string {
+    export function GreenRedLettuceGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -345,7 +349,7 @@ namespace asparaCamera {
     }
 
     /**
-    * Get Image classification result
+    * Image classification Get Result
     */
     //% blockId=image_classification_read_label block="Image Classification Get Result"
     //% group="Image Classification" color="#0c9eed" weight=501
@@ -368,22 +372,12 @@ namespace asparaCamera {
     /* Face Detection.                                                                                                     */
     /***********************************************************************************************************************/
     /**
-    * Get Face Detection result
+    * Face Detection Get Result
     */
-    //% blockId=face_detection_result block="Get Face Detection result"
+    //% blockId=face_detection_result block="Face Detection Get Result"
     //% group="Face Detection" color="#be17a3" weight=601
-    export function GetFaceDetectionResult(): number {
+    export function FaceDetectionGetResult(): number {
         let ret = 0
-        // readNewdata = true;
-        // while(lock){ basic.pause(1); };
-        // if (!lock) {
-        //     lock = true;
-        //     ret = parseInt(lastResult.split(" ")[0])
-        //     lastResult = ""
-        //     newdata = false
-        //     lock = false;
-        // }
-        // readNewdata = false;
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
         ret = parseInt(lastResultcpy.split(" ")[0])
@@ -394,11 +388,11 @@ namespace asparaCamera {
     /* Smile Detection.                                                                                                     */
     /***********************************************************************************************************************/
     /**
-    * Get Smile Detection result
+    * Smile Detection Get Result
     */
-    //% blockId=smile_detection_result block="Get Smile Detection result"
+    //% blockId=smile_detection_result block="Smile Detection Get Result"
     //% group="Smile Detection" color="#3711df" weight=601
-    export function GetSmileDetectionResult(): string {
+    export function SmileDetectionGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -410,6 +404,22 @@ namespace asparaCamera {
             lock = false;
         }
         readNewdata = false;
+        return ret
+    }
+
+    /***********************************************************************************************************************/
+    /* Scan Number.                                                                                                        */
+    /***********************************************************************************************************************/
+    /**
+    * Scan Number Get Result
+    */
+    //% blockId=scan_number_result block="Scan Number Get Result"
+    //% group="Scan Number" color="#069992" weight=701
+    export function ScanNumberGetResult(): number {
+        let ret = 0
+        // For this case, don't use the lock mechanism to speed up the response
+        let lastResultcpy = lastResult
+        ret = parseInt(lastResultcpy)
         return ret
     }
 }
