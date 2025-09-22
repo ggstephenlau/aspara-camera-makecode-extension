@@ -14,7 +14,8 @@ namespace asparaCamera {
         ColorTracking,
         GreenRedLettuce,
         ImageClassification,
-        FaceDetection
+        FaceDetection,
+        SmileDetection
     }
 
     export enum ColorEnum {
@@ -49,7 +50,7 @@ namespace asparaCamera {
      * @param rx Rx pin; eg: SerialPin.P1
      */
     //% blockId=asparaCamera_init block="asparaCamera init tx %tx rx %rx"
-    //% group="Basic" color="#00AAA0" weight=102
+    //% group="Basic" color="#00AAA0" weight=103
     export function asparaCameraInit(tx: SerialPin, rx: SerialPin): void {
         serial.redirect(tx, rx, BaudRate.BaudRate115200);
         serial.setTxBufferSize(64)
@@ -74,7 +75,7 @@ namespace asparaCamera {
     * Select the operation mode of asparaCamera
     */
     //% blockId=asparaCamera_select_mode block="Select Mode %func"
-    //% group="Basic" color="#00AAA0" weight=101
+    //% group="Basic" color="#00AAA0" weight=102
     //% func.fieldEditor="gridpicker"
     //% func.fieldOptions.columns=3
     export function selectMode(func: ModeEnum): void {
@@ -97,7 +98,19 @@ namespace asparaCamera {
             case ModeEnum.FaceDetection:
                 serial.writeLine("start detect face")
                 break;
+            case ModeEnum.SmileDetection:
+                serial.writeLine("start smile")
+                break;
         }
+    }
+
+    /**
+    * Data Ready
+    */
+    //% blockId=data_ready block="Data Ready"
+    //% group="Basic" color="#00AAA0" weight=101
+    export function DataReady(): boolean {
+        return newdata;
     }
 
     /***********************************************************************************************************************/
@@ -143,15 +156,6 @@ namespace asparaCamera {
                 break;
         }
         serial.writeLine("set color " + colortext)
-    }
-
-    /**
-    * Line Tracking Coordinates Ready
-    */
-    //% blockId=line_tracking_coordinates_ready block="Line Tracking Coordinates Ready"
-    //% group="Line tracking" color="#dc1489" weight=202
-    export function LineTrackingCoordinatesReady(): boolean {
-        return newdata;
     }
 
     /**
@@ -248,15 +252,6 @@ namespace asparaCamera {
     }
 
     /**
-    * Color Tracking Coordinates Ready
-    */
-    //% blockId=color_tracking_coordinates_ready block="Color Tracking Coordinates Ready"
-    //% group="Color tracking" color="#dcdc14" weight=302
-    export function ColorTrackingCoordinatesReady(): boolean {
-        return newdata;
-    }
-
-    /**
     * Color Tracking Get Coordinate
     */
     //% blockId=color_tracking_get_coordinate block="Color Tracking Get Coordinate %coord"
@@ -308,15 +303,6 @@ namespace asparaCamera {
     /* Green/Red Lettuce                                                                                                   */
     /***********************************************************************************************************************/
     /**
-    * Green/Red Lettuce Result Ready
-    */
-    //% blockId=green_red_ready block="Green/Red Lettuce Result Ready"
-    //% group="Green Red Lettuce" color="#316240" weight=402
-    export function GreenRedLettuceResultReady(): boolean {
-        return newdata;
-    }
-
-    /**
     * Get Green/Red Lettuce result
     */
     //% blockId=green_red_result block="Get Green/Red Lettuce result"
@@ -359,15 +345,6 @@ namespace asparaCamera {
     }
 
     /**
-    * Image classification result ready
-    */
-    //% blockId=image_classification_result_ready block="Image Classification Result Ready"
-    //% group="Image Classification" color="#0c9eed" weight=502
-    export function ImageClassificationResultReady(): boolean {
-        return newdata;
-    }
-
-    /**
     * Get Image classification result
     */
     //% blockId=image_classification_read_label block="Image Classification Get Result"
@@ -391,15 +368,6 @@ namespace asparaCamera {
     /* Face Detection.                                                                                                     */
     /***********************************************************************************************************************/
     /**
-    * Face Detection Result Ready
-    */
-    //% blockId=face_detection_ready block="Face Detection Result Ready"
-    //% group="Face Detection" color="#be17a3" weight=602
-    export function FaceDetectionResultReady(): boolean {
-        return newdata;
-    }
-
-    /**
     * Get Face Detection result
     */
     //% blockId=face_detection_result block="Get Face Detection result"
@@ -419,6 +387,29 @@ namespace asparaCamera {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
         ret = parseInt(lastResultcpy.split(" ")[0])
+        return ret
+    }
+
+    /***********************************************************************************************************************/
+    /* Smile Detection.                                                                                                     */
+    /***********************************************************************************************************************/
+    /**
+    * Get Smile Detection result
+    */
+    //% blockId=smile_detection_result block="Get Smile Detection result"
+    //% group="Smile Detection" color="#3711df" weight=601
+    export function GetSmileDetectionResult(): string {
+        let ret = ""
+        readNewdata = true;
+        while(lock){ basic.pause(1); };
+        if (!lock) {
+            lock = true;
+            ret = lastResult
+            lastResult = ""
+            newdata = false
+            lock = false;
+        }
+        readNewdata = false;
         return ret
     }
 }
