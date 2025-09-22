@@ -17,7 +17,8 @@ namespace asparaCamera {
         FaceDetection,
         SmileDetection,
         ScanNumber,
-        ScanAlphabet
+        ScanAlphabet,
+        ScanQrBarCode
     }
 
     export enum ColorEnum {
@@ -108,6 +109,9 @@ namespace asparaCamera {
                 break;
             case ModeEnum.ScanAlphabet:
                 serial.writeLine("start scan alphabet")
+                break;
+            case ModeEnum.ScanQrBarCode:
+                serial.writeLine("start qr bar code")
                 break;
         }
     }
@@ -436,6 +440,20 @@ namespace asparaCamera {
     //% blockId=scan_alphabet_result block="Scan Alphabet Get Result"
     //% group="Scan Alphabet" color="#763335" weight=801
     export function ScanAlphabetGetResult(): string {
+        // For this case, don't use the lock mechanism to speed up the response
+        let lastResultcpy = lastResult
+        return lastResultcpy
+    }
+
+    /***********************************************************************************************************************/
+    /* Scan QrBarCode.                                                                                                   */
+    /***********************************************************************************************************************/
+    /**
+    * Scan QrBarCode Get Result
+    */
+    //% blockId=scan_qr_bar_code_result block="Scan QR/BarCode Get Result"
+    //% group="Scan QrBarCode" color="#0d99b5" weight=901
+    export function ScanQrBarCodeGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
         return lastResultcpy
