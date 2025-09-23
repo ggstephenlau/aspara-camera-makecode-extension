@@ -12,6 +12,7 @@ namespace asparaCamera {
         Preview = 0x0,
         LineTracking,
         ColorTracking,
+        LeafDiagnosis,
         GreenRedLettuce,
         Classification,
         ImageClassification,
@@ -92,6 +93,9 @@ namespace asparaCamera {
                 break;
             case ModeEnum.ColorTracking:
                 serial.writeLine("start color tracking")
+                break;
+            case ModeEnum.LeafDiagnosis:
+                serial.writeLine("start leaf diagnosis")
                 break;
             case ModeEnum.GreenRedLettuce:
                 serial.writeLine("start green red")
@@ -313,6 +317,22 @@ namespace asparaCamera {
         }
         readNewdata = false;
         return retnum;
+    }
+
+    /***********************************************************************************************************************/
+    /* Leaf Diagnosis.                                                                                                     */
+    /***********************************************************************************************************************/
+    /**
+    * Leaf Diagnosis Get Result
+    */
+    //% blockId=leaf_diagnosis_result block="Leaf Diagnosis Get Result"
+    //% group="Leaf Diagnosis" color="#d5122f" weight=401
+    export function LeafDiagnosisGetResult(): number {
+        let ret = 0
+        // For this case, don't use the lock mechanism to speed up the response
+        let lastResultcpy = lastResult
+        ret = parseInt(lastResultcpy.split(" ")[0])
+        return ret
     }
 
     /***********************************************************************************************************************/
