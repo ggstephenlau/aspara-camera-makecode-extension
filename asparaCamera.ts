@@ -342,7 +342,7 @@ namespace asparaCamera {
     * Green/Red Lettuce Get Result
     */
     //% blockId=green_red_result block="Green/Red Lettuce Get Result"
-    //% group="Green Red Lettuce" color="#316240" weight=401
+    //% group="Green Red Lettuce" color="#316240" weight=501
     export function GreenRedLettuceGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -365,7 +365,7 @@ namespace asparaCamera {
     * Classification Get Result
     */
     //% blockId=classification_result block="Classification Get Result"
-    //% group="Classification" color="#7a53e6" weight=501
+    //% group="Classification" color="#7a53e6" weight=601
     export function ClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -389,7 +389,7 @@ namespace asparaCamera {
      * @param label The arbitrary name to associate with the captured image.
      */
     //% blockId=image_classification_add_label block="Take Image For Label #%label"
-    //% group="Image Classification" color="#0c9eed" weight=603
+    //% group="Image Classification" color="#0c9eed" weight=703
     export function ImageClassificationAddLabel(label: string): void {
         serial.writeLine("tag #" + label);
     }
@@ -398,7 +398,7 @@ namespace asparaCamera {
     * Image classification clear all labels
     */
     //% blockId=image_classification_clear_all_labels block="Image Classification Clear All Labels"
-    //% group="Image Classification" color="#0c9eed" weight=602
+    //% group="Image Classification" color="#0c9eed" weight=702
     export function ImageClassificationClearAllLabel(): void {
         serial.writeLine("tag #reset");
     }
@@ -407,7 +407,7 @@ namespace asparaCamera {
     * Image classification Get Result
     */
     //% blockId=image_classification_read_label block="Image Classification Get Result"
-    //% group="Image Classification" color="#0c9eed" weight=601
+    //% group="Image Classification" color="#0c9eed" weight=701
     export function ImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -430,7 +430,7 @@ namespace asparaCamera {
     * Face Detection Get Result
     */
     //% blockId=face_detection_result block="Face Detection Get Result"
-    //% group="Face Detection" color="#be17a3" weight=701
+    //% group="Face Detection" color="#be17a3" weight=801
     export function FaceDetectionGetResult(): number {
         let ret = 0
         // For this case, don't use the lock mechanism to speed up the response
@@ -446,7 +446,7 @@ namespace asparaCamera {
     * Smile Detection Get Result
     */
     //% blockId=smile_detection_result block="Smile Detection Get Result"
-    //% group="Smile Detection" color="#3711df" weight=801
+    //% group="Smile Detection" color="#3711df" weight=901
     export function SmileDetectionGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -469,7 +469,7 @@ namespace asparaCamera {
     * Scan Number Get Result
     */
     //% blockId=scan_number_result block="Scan Number Get Result"
-    //% group="Scan Number" color="#069992" weight=901
+    //% group="Scan Number" color="#069992" weight=1001
     export function ScanNumberGetResult(): number {
         let ret = 0
         // For this case, don't use the lock mechanism to speed up the response
@@ -485,7 +485,7 @@ namespace asparaCamera {
     * Scan Alphabet Get Result
     */
     //% blockId=scan_alphabet_result block="Scan Alphabet Get Result"
-    //% group="Scan Alphabet" color="#763335" weight=1001
+    //% group="Scan Alphabet" color="#763335" weight=1101
     export function ScanAlphabetGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
@@ -499,7 +499,7 @@ namespace asparaCamera {
     * Scan QrBarCode Get Result
     */
     //% blockId=scan_qr_bar_code_result block="Scan QR/BarCode Get Result"
-    //% group="Scan QrBarCode" color="#063a0d" weight=1101
+    //% group="Scan QrBarCode" color="#063a0d" weight=1201
     export function ScanQrBarCodeGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
