@@ -526,4 +526,18 @@ namespace asparaCamera {
         let lastResultcpy = lastResult
         return lastResultcpy
     }
+
+    /***********************************************************************************************************************/
+    /* Set WiFi.                                                                                                   */
+    /***********************************************************************************************************************/
+    /**
+    * Set WiFi SSID and Password
+    * @param ssid SSID of the WiFi network
+    * @param password Password of the WiFi network
+    */
+    //% blockId=set_wifi_credentials block="Set WiFi SSID %ssid and Password %password"
+    //% group="Set WiFi Credentials" color="#0d0476" weight=1301
+    export function set_wifi_credentials(ssid: string, password: string): void {
+        serial.writeLine("wifi:[" + ssid + ", " + password + "]")
+    }
 }
