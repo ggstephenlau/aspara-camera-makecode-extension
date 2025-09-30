@@ -9,18 +9,31 @@ namespace asparaCamera {
     let newdata:boolean = false;
 
     export enum ModeEnum {
-        Preview = 0x0,
+        //% block="None"
+        None = 0x0,
+        //% block="Line Tracking"
         LineTracking,
+        //% block="Color Tracking"
         ColorTracking,
-        ObjectDectection,
-        LeafDiagnosis,
-        GreenRedLettuce,
-        Classification,
+        //% block="Object Detection"
+        ObjectDetection,
+        //% block="Plant Diagnosis"
+        PlantDiagnosis,
+        //% block="Green/Red Lettuce Classification"
+        GreenRedLettuceClassification,
+        //% block="Object Classification"
+        ObjectClassification,
+        //% block="Image Classification"
         ImageClassification,
+        //% block="Face Detection"
         FaceDetection,
-        SmileDetection,
+        //% block="Facial Expression Detection"
+        FacialExpressionDetection,
+        //% block="Scan Number"
         ScanNumber,
+        //% block="Scan Alphabet"
         ScanAlphabet,
+        //% block="Scan QR/Bar Code"
         ScanQrBarCode
     }
 
@@ -86,7 +99,7 @@ namespace asparaCamera {
     //% func.fieldOptions.columns=3
     export function selectMode(func: ModeEnum): void {
         switch(func) {
-            case ModeEnum.Preview:
+            case ModeEnum.None:
                 serial.writeLine("start preview")
                 break;
             case ModeEnum.LineTracking:
@@ -95,16 +108,16 @@ namespace asparaCamera {
             case ModeEnum.ColorTracking:
                 serial.writeLine("start color tracking")
                 break;
-            case ModeEnum.ObjectDectection:
+            case ModeEnum.ObjectDetection:
                 serial.writeLine("start object detection")
                 break;
-            case ModeEnum.LeafDiagnosis:
+            case ModeEnum.PlantDiagnosis:
                 serial.writeLine("start leaf diagnosis")
                 break;
-            case ModeEnum.GreenRedLettuce:
+            case ModeEnum.GreenRedLettuceClassification:
                 serial.writeLine("start green red")
                 break;
-            case ModeEnum.Classification:
+            case ModeEnum.ObjectClassification:
                 serial.writeLine("start classify")
                 break;
             case ModeEnum.ImageClassification:
@@ -113,7 +126,7 @@ namespace asparaCamera {
             case ModeEnum.FaceDetection:
                 serial.writeLine("start detect face")
                 break;
-            case ModeEnum.SmileDetection:
+            case ModeEnum.FacialExpressionDetection:
                 serial.writeLine("start smile")
                 break;
             case ModeEnum.ScanNumber:
@@ -129,16 +142,16 @@ namespace asparaCamera {
     }
 
     /**
-    * Data Ready
+    * Result Ready
     */
-    //% blockId=data_ready block="Data Ready"
+    //% blockId=result_ready block="Result Ready"
     //% group="Basic" color="#00AAA0" weight=101
-    export function DataReady(): boolean {
+    export function ResultReady(): boolean {
         return newdata;
     }
 
     /***********************************************************************************************************************/
-    /* Line tracking.                                                                                                     */
+    /* Line tracking.                                                                                                      */
     /***********************************************************************************************************************/
     /**
     * Line tracking select color
@@ -324,7 +337,7 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Object Detection.                                                                                                     */
+    /* Object Detection.                                                                                                   */
     /***********************************************************************************************************************/
     /**
     * Object Detection Get Result
@@ -341,14 +354,14 @@ namespace asparaCamera {
 
 
     /***********************************************************************************************************************/
-    /* Leaf Diagnosis.                                                                                                     */
+    /* Plant Diagnosis.                                                                                                    */
     /***********************************************************************************************************************/
     /**
-    * Leaf Diagnosis Get Result
+    * Plant Diagnosis Get Result
     */
-    //% blockId=leaf_diagnosis_result block="Leaf Diagnosis Get Result"
-    //% group="Leaf Diagnosis" color="#d5122f" weight=501
-    export function LeafDiagnosisGetResult(): number {
+    //% blockId=plant_diagnosis_result block="Plant Diagnosis Get Result"
+    //% group="Plant Diagnosis" color="#d5122f" weight=501
+    export function PlantDiagnosisGetResult(): number {
         let ret = 0
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
@@ -357,14 +370,14 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Green/Red Lettuce                                                                                                   */
+    /* Green/Red Lettuce Classification                                                                                    */
     /***********************************************************************************************************************/
     /**
-    * Green/Red Lettuce Get Result
+    * Green/Red Lettuce Classification Get Result
     */
-    //% blockId=green_red_result block="Green/Red Lettuce Get Result"
-    //% group="Green Red Lettuce" color="#316240" weight=601
-    export function GreenRedLettuceGetResult(): string {
+    //% blockId=green_red_result block="Green/Red Lettuce Classification Get Result"
+    //% group="Green/Red Lettuce Classification" color="#316240" weight=601
+    export function GreenRedLettuceClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -380,14 +393,14 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Classification.                                                                                                     */
+    /* Object Classification.                                                                                              */
     /***********************************************************************************************************************/
     /**
-    * Classification Get Result
+    * Object Classification Get Result
     */
-    //% blockId=classification_result block="Classification Get Result"
-    //% group="Classification" color="#7a53e6" weight=701
-    export function ClassificationGetResult(): string {
+    //% blockId=object_classification_result block="Object Classification Get Result"
+    //% group="Object Classification" color="#7a53e6" weight=701
+    export function ObjectClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -409,7 +422,7 @@ namespace asparaCamera {
      * Adds a custom label to an image in the Image Classification.
      * @param label The arbitrary name to associate with the captured image.
      */
-    //% blockId=image_classification_add_label block="Take Image For Label #%label"
+    //% blockId=image_classification_add_label block="Capture Image With Label #%label"
     //% group="Image Classification" color="#0c9eed" weight=803
     export function ImageClassificationAddLabel(label: string): void {
         serial.writeLine("tag #" + label);
@@ -461,14 +474,14 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Smile Detection.                                                                                                     */
+    /* Facial Expression Detection.                                                                                        */
     /***********************************************************************************************************************/
     /**
-    * Smile Detection Get Result
+    * Facial Expression Detection Get Result
     */
-    //% blockId=smile_detection_result block="Smile Detection Get Result"
-    //% group="Smile Detection" color="#3711df" weight=1001
-    export function SmileDetectionGetResult(): string {
+    //% blockId=facial_expression_detection_result block="Facial Expression Detection Get Result"
+    //% group="Facial Expression Detection" color="#3711df" weight=1001
+    export function FacialExpressionDetectionGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -500,7 +513,7 @@ namespace asparaCamera {
     }
     
     /***********************************************************************************************************************/
-    /* Scan Alphabet.                                                                                                     */
+    /* Scan Alphabet.                                                                                                      */
     /***********************************************************************************************************************/
     /**
     * Scan Alphabet Get Result
@@ -514,21 +527,21 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Scan QrBarCode.                                                                                                   */
+    /* Scan QR/BarCode.                                                                                                     */
     /***********************************************************************************************************************/
     /**
-    * Scan QrBarCode Get Result
+    * Scan QR/BarCode Get Result
     */
     //% blockId=scan_qr_bar_code_result block="Scan QR/BarCode Get Result"
-    //% group="Scan QrBarCode" color="#063a0d" weight=1301
-    export function ScanQrBarCodeGetResult(): string {
+    //% group="Scan QR/BarCode" color="#063a0d" weight=1301
+    export function ScanQRBarCodeGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
         return lastResultcpy
     }
 
     /***********************************************************************************************************************/
-    /* Set WiFi.                                                                                                   */
+    /* Set WiFi.                                                                                                           */
     /***********************************************************************************************************************/
     /**
     * Set WiFi SSID and Password
