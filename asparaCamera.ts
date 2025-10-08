@@ -7,6 +7,8 @@ namespace asparaCamera {
     let readNewdata:boolean = false;
     let lock:boolean = false
     let newdata:boolean = false;
+    let assignedTx: SerialPin = SerialPin.P0;
+    let assignedRx: SerialPin = SerialPin.P1;
 
     export enum ModeEnum {
         //% block="None"
@@ -60,6 +62,17 @@ namespace asparaCamera {
         Height
     }
 
+    export enum LcdViewAngleEnum {
+        //% block="0°"
+        Angle0 = 0,
+        //% block="90°"
+        Angle90 = 90,
+        //% block="180°"
+        Angle180 = 180,
+        //% block="270°"
+        Angle270 = 270
+    }
+
     /***********************************************************************************************************************/
     /* Basic Functions                                                                                                     */
     /***********************************************************************************************************************/
@@ -71,7 +84,9 @@ namespace asparaCamera {
     //% blockId=asparaCamera_init block="asparaCamera init tx %tx rx %rx"
     //% group="Basic" color="#00AAA0" weight=103
     export function asparaCameraInit(tx: SerialPin, rx: SerialPin): void {
-        serial.redirect(tx, rx, BaudRate.BaudRate115200);
+        assignedRx = rx;
+        assignedTx = tx;
+        serial.redirect(assignedTx, assignedRx, BaudRate.BaudRate115200);
         serial.setTxBufferSize(64)
         serial.setRxBufferSize(64)
         serial.readString()
@@ -549,8 +564,38 @@ namespace asparaCamera {
     * @param password Password of the WiFi network
     */
     //% blockId=set_wifi_credentials block="Set WiFi SSID %ssid and Password %password"
-    //% group="Set WiFi Credentials" color="#0d0476" weight=1301
+    //% group="Miscellaneous" color="#0d0476" weight=1401
     export function set_wifi_credentials(ssid: string, password: string): void {
         serial.writeLine("wifi:[" + ssid + ", " + password + "]")
+    }
+
+    /***********************************************************************************************************************/
+    /* Set LCD View Angle.                                                                                                 */
+    /***********************************************************************************************************************/
+    /**
+    * Set LCD View Angle
+    * @param angle Angle to set the LCD view
+    */
+    //% blockId=set_lcd_view_angle block="Set LCD View Angle %angle"
+    //% group="Miscellaneous" color="#aa0642" weight=1402
+    //% angle.fieldEditor="gridpicker"
+    //% angle.fieldOptions.columns=1
+    export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
+        serial.writeLine("lcd_view_angle:" + angle)
+    }
+
+    /***********************************************************************************************************************/
+    /* Print to USB console.                                                                                               */
+    /***********************************************************************************************************************/
+    /**
+    * Print to USB console
+    * @param msg message to print to USB console
+    */
+    //% blockId=print_to_usb_console block="Print to USB console %msg"
+    //% group="Miscellaneous" color="#5698ac" weight=1403
+    export function asparaCameraPrintToUSBConsole(msg: string): void {
+        serial.redirect(SerialPin.USB_TX, SerialPin.USB_RX, BaudRate.BaudRate115200);
+        serial.writeLine(msg);
+        serial.redirect(assignedTx, assignedRx, BaudRate.BaudRate115200);
     }
 }
