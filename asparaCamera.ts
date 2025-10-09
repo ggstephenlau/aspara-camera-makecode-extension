@@ -5,10 +5,12 @@
 namespace asparaCamera {
     let lastResult = ""
     let readNewdata:boolean = false;
+    let usbSerialLock:boolean = false;
     let lock:boolean = false
     let newdata:boolean = false;
     let assignedTx: SerialPin = SerialPin.P0;
     let assignedRx: SerialPin = SerialPin.P1;
+    let usbSerialFailedCount = 0;
 
     export enum ModeEnum {
         //% block="None"
@@ -95,8 +97,23 @@ namespace asparaCamera {
             for(let i=0; i < 10; i++) {
                 if (!lock && !readNewdata) {
                     lock = true
-                    lastResult = serial.readUntil(serial.delimiters(Delimiters.NewLine));
-                    newdata = true;
+                    for(let j=0; j < 200; j++) {
+                        if(!usbSerialLock) {
+                            break;
+                        }
+                        basic.pause(1);
+                    }
+                    if (usbSerialLock) {
+                        serial.redirect(assignedTx, assignedRx, BaudRate.BaudRate115200);
+                        serial.readBuffer(0);
+                        lastResult = "";
+                        newdata = false;
+                    } else {
+                        usbSerialLock = true
+                        lastResult = serial.readUntil(serial.delimiters(Delimiters.NewLine));
+                        newdata = true;
+                    }
+                    usbSerialLock = false
                     lock = false;
                     break;
                 }
@@ -224,7 +241,7 @@ namespace asparaCamera {
         while(lock){ basic.pause(1); };
         if (!lock) {
             lock = true;
-            if (lastResult.length > 0) {
+            if (lastResult.length > 2) {
                 // Parse the JSON string
                 let parsed = JSON.parse(lastResult);
                 switch(coordxy) {
@@ -317,7 +334,7 @@ namespace asparaCamera {
         while(lock){ basic.pause(1); };
         if (!lock) {
             lock = true;
-            if (lastResult.length > 0) {
+            if (lastResult.length > 2) {
                 // Parse the JSON string
                 let parsed = JSON.parse(lastResult);
                 switch(coord) {
@@ -581,21 +598,46 @@ namespace asparaCamera {
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
-        serial.writeLine("lcd_view_angle:" + angle)
+        if (angle == LcdViewAngleEnum.Angle0) {
+            serial.writeLine("lcd_view_angle:" + 90) // mapped to asparaCamera orientation
+        } else if (angle == LcdViewAngleEnum.Angle90) {
+            serial.writeLine("lcd_view_angle:" + 180) // mapped to asparaCamera orientation
+        } else if (angle == LcdViewAngleEnum.Angle180) {
+            serial.writeLine("lcd_view_angle:" + 270) // mapped to asparaCamera orientation
+        } else if (angle == LcdViewAngleEnum.Angle270) {
+            serial.writeLine("lcd_view_angle:" + 0) // mapped to asparaCamera orientation
+        }
     }
 
-    /***********************************************************************************************************************/
-    /* Print to USB console.                                                                                               */
-    /***********************************************************************************************************************/
-    /**
-    * Print to USB console
-    * @param msg message to print to USB console
-    */
-    //% blockId=print_to_usb_console block="Print to USB console %msg"
-    //% group="Miscellaneous" color="#5698ac" weight=1403
-    export function asparaCameraPrintToUSBConsole(msg: string): void {
+    function usbSendMsg(msg: string): void {
         serial.redirect(SerialPin.USB_TX, SerialPin.USB_RX, BaudRate.BaudRate115200);
         serial.writeLine(msg);
         serial.redirect(assignedTx, assignedRx, BaudRate.BaudRate115200);
+        serial.readBuffer(0);
+    }
+
+    /***********************************************************************************************************************/
+    /* Print to USB Serial.                                                                                                */
+    /***********************************************************************************************************************/
+    /**
+    * Print to USB Serial
+    * @param msg message to print to USB Serial
+    */
+    //% blockId=print_to_usb_serial block="Print to USB Serial %msg"
+    //% group="Miscellaneous" color="#5698ac" weight=1403
+    export function asparaCameraPrintToUSBSerial(msg: string): void {
+        if(!usbSerialLock) {
+            usbSerialLock = true
+            usbSendMsg(msg)
+            usbSerialLock = false
+            usbSerialFailedCount = 0
+        } else {
+            usbSerialFailedCount++
+            if (usbSerialFailedCount > 10) {
+                usbSendMsg(msg)
+                usbSerialLock = false
+                usbSerialFailedCount = 0
+            }
+        }
     }
 }
