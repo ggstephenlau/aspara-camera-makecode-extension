@@ -75,6 +75,17 @@ namespace asparaCamera {
         Angle270 = 270
     }
 
+    export enum CameraRotationAngleEnum {
+        //% block="0°"
+        Angle0 = 0,
+        //% block="90°"
+        Angle90 = 90,
+        //% block="180°"
+        Angle180 = 180,
+        //% block="270°"
+        Angle270 = 270
+    }
+
     /***********************************************************************************************************************/
     /* Basic Functions                                                                                                     */
     /***********************************************************************************************************************/
@@ -565,25 +576,11 @@ namespace asparaCamera {
     * Scan QR/BarCode Get Result
     */
     //% blockId=scan_qr_bar_code_result block="Scan QR/BarCode Get Result"
-    //% group="Scan QR/BarCode" color="#063a0d" weight=1301
+    //% group="Scan QR/BarCode" color="#095913" weight=1301
     export function ScanQRBarCodeGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
         return lastResultcpy
-    }
-
-    /***********************************************************************************************************************/
-    /* Set WiFi.                                                                                                           */
-    /***********************************************************************************************************************/
-    /**
-    * Set WiFi SSID and Password
-    * @param ssid SSID of the WiFi network
-    * @param password Password of the WiFi network
-    */
-    //% blockId=set_wifi_credentials block="Set WiFi SSID %ssid and Password %password"
-    //% group="Miscellaneous" color="#0d0476" weight=1401
-    export function set_wifi_credentials(ssid: string, password: string): void {
-        serial.writeLine("wifi:[" + ssid + ", " + password + "]")
     }
 
     /***********************************************************************************************************************/
@@ -594,19 +591,39 @@ namespace asparaCamera {
     * @param angle Angle to set the LCD view
     */
     //% blockId=set_lcd_view_angle block="Set LCD View Angle %angle"
-    //% group="Miscellaneous" color="#aa0642" weight=1402
+    //% group="Miscellaneous" color="#0d0476" weight=1405
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
-        if (angle == LcdViewAngleEnum.Angle0) {
-            serial.writeLine("lcd_view_angle:" + 90) // mapped to asparaCamera orientation
-        } else if (angle == LcdViewAngleEnum.Angle90) {
-            serial.writeLine("lcd_view_angle:" + 180) // mapped to asparaCamera orientation
-        } else if (angle == LcdViewAngleEnum.Angle180) {
-            serial.writeLine("lcd_view_angle:" + 270) // mapped to asparaCamera orientation
-        } else if (angle == LcdViewAngleEnum.Angle270) {
-            serial.writeLine("lcd_view_angle:" + 0) // mapped to asparaCamera orientation
-        }
+        serial.writeLine("lcd_view_angle:" + angle)
+    }
+
+    /***********************************************************************************************************************/
+    /* Set Camera Rotation Angle.                                                                                                 */
+    /***********************************************************************************************************************/
+    /**
+    * Set Camera Rotation Angle
+    * @param angle Angle to rotate the camera
+    */
+    //% blockId=set_camera_rotation_angle block="Set Camera Rotation Angle %angle"
+    //% group="Miscellaneous" color="#0d0476" weight=1404
+    //% angle.fieldEditor="gridpicker"
+    //% angle.fieldOptions.columns=1
+    export function set_camera_rotation_angle(angle: CameraRotationAngleEnum): void {
+        serial.writeLine("camera_rotation_angle:" + angle)
+    }
+
+    /***********************************************************************************************************************/
+    /* Take a Photo.                                                                                                     */
+    /***********************************************************************************************************************/
+    /**
+    * Take a Photo
+    * @param name Name of the photo file
+    */
+    //% blockId=take_photo block="Take a Photo with name %name"
+    //% group="Miscellaneous" color="#0d0476" weight=1403
+    export function asparaCameraTakePhoto(name: string): void {
+        serial.writeLine("take photo with name: \"" + name + "\"")
     }
 
     function usbSendMsg(msg: string): void {
@@ -624,7 +641,7 @@ namespace asparaCamera {
     * @param msg message to print to USB Serial
     */
     //% blockId=print_to_usb_serial block="Print to USB Serial %msg"
-    //% group="Miscellaneous" color="#5698ac" weight=1403
+    //% group="Miscellaneous" color="#0d0476" weight=1402
     export function asparaCameraPrintToUSBSerial(msg: string): void {
         if(!usbSerialLock) {
             usbSerialLock = true
@@ -639,5 +656,19 @@ namespace asparaCamera {
                 usbSerialFailedCount = 0
             }
         }
+    }
+
+    /***********************************************************************************************************************/
+    /* Set WiFi.                                                                                                           */
+    /***********************************************************************************************************************/
+    /**
+    * Set WiFi SSID and Password
+    * @param ssid SSID of the WiFi network
+    * @param password Password of the WiFi network
+    */
+    //% blockId=set_wifi_credentials block="Set WiFi SSID %ssid and Password %password"
+    //% group="Miscellaneous" color="#0d0476" weight=1401
+    export function set_wifi_credentials(ssid: string, password: string): void {
+        serial.writeLine("wifi:[" + ssid + ", " + password + "]")
     }
 }
