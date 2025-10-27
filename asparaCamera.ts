@@ -25,6 +25,8 @@ namespace asparaCamera {
         PlantDiagnosis,
         //% block="Green/Red Lettuce Classification"
         GreenRedLettuceClassification,
+        //% block="Custom Model Image Classification"
+        CustomModelImageClassification,
         //% block="Object Classification"
         ObjectClassification,
         //% block="Image Classification"
@@ -159,6 +161,9 @@ namespace asparaCamera {
                 break;
             case ModeEnum.GreenRedLettuceClassification:
                 serial.writeLine("start green red")
+                break;
+            case ModeEnum.CustomModelImageClassification:
+                serial.writeLine("start custom model image classification")
                 break;
             case ModeEnum.ObjectClassification:
                 serial.writeLine("start classify")
@@ -436,13 +441,46 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
+    /* Custom Model Image Classification                                                                                   */
+    /***********************************************************************************************************************/
+    /**
+     * Sets the custom model name for the Custom Model Image Classification.
+     * @param model The name of the custom model to set.
+     */
+    //% blockId=custom_model_set_model block="Set Custom Model Name: %model"
+    //% group="Custom Model Image Classification" color="#205e87" weight=702
+    export function CustomModelImageClassificationSetModel(model: string): void {
+        serial.writeLine("model name:" + model);
+    }
+
+    /**
+    * Custom Model Image Classification Get Result
+    */
+    //% blockId=custom_model_result block="Custom Model Image Classification Get Result"
+    //% group="Custom Model Image Classification" color="#205e87" weight=701
+    export function CustomModelImageClassificationGetResult(): string {
+        let ret = ""
+        readNewdata = true;
+        while(lock){ basic.pause(1); };
+        if (!lock) {
+            lock = true;
+            ret = lastResult
+            lastResult = ""
+            newdata = false
+            lock = false;
+        }
+        readNewdata = false;
+        return ret
+    }
+
+    /***********************************************************************************************************************/
     /* Object Classification.                                                                                              */
     /***********************************************************************************************************************/
     /**
     * Object Classification Get Result
     */
     //% blockId=object_classification_result block="Object Classification Get Result"
-    //% group="Object Classification" color="#7a53e6" weight=701
+    //% group="Object Classification" color="#7a53e6" weight=801
     export function ObjectClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -466,7 +504,7 @@ namespace asparaCamera {
      * @param label The arbitrary name to associate with the captured image.
      */
     //% blockId=image_classification_add_label block="Capture Image With Label #%label"
-    //% group="Image Classification" color="#0c9eed" weight=803
+    //% group="Image Classification" color="#0c9eed" weight=903
     export function ImageClassificationAddLabel(label: string): void {
         serial.writeLine("tag #" + label);
     }
@@ -475,7 +513,7 @@ namespace asparaCamera {
     * Image classification clear all labels
     */
     //% blockId=image_classification_clear_all_labels block="Image Classification Clear All Labels"
-    //% group="Image Classification" color="#0c9eed" weight=802
+    //% group="Image Classification" color="#0c9eed" weight=902
     export function ImageClassificationClearAllLabel(): void {
         serial.writeLine("tag #reset");
     }
@@ -484,7 +522,7 @@ namespace asparaCamera {
     * Image classification Get Result
     */
     //% blockId=image_classification_read_label block="Image Classification Get Result"
-    //% group="Image Classification" color="#0c9eed" weight=801
+    //% group="Image Classification" color="#0c9eed" weight=901
     export function ImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -507,7 +545,7 @@ namespace asparaCamera {
     * Face Detection Get Result
     */
     //% blockId=face_detection_result block="Face Detection Get Result"
-    //% group="Face Detection" color="#be17a3" weight=901
+    //% group="Face Detection" color="#be17a3" weight=1001
     export function FaceDetectionGetResult(): number {
         let ret = 0
         // For this case, don't use the lock mechanism to speed up the response
@@ -523,7 +561,7 @@ namespace asparaCamera {
     * Facial Expression Detection Get Result
     */
     //% blockId=facial_expression_detection_result block="Facial Expression Detection Get Result"
-    //% group="Facial Expression Detection" color="#3711df" weight=1001
+    //% group="Facial Expression Detection" color="#3711df" weight=1101
     export function FacialExpressionDetectionGetResult(): string {
         let ret = ""
         readNewdata = true;
@@ -546,7 +584,7 @@ namespace asparaCamera {
     * Scan Number Get Result
     */
     //% blockId=scan_number_result block="Scan Number Get Result"
-    //% group="Scan Number" color="#069992" weight=1101
+    //% group="Scan Number" color="#069992" weight=1201
     export function ScanNumberGetResult(): number {
         let ret = 0
         // For this case, don't use the lock mechanism to speed up the response
@@ -562,7 +600,7 @@ namespace asparaCamera {
     * Scan Alphabet Get Result
     */
     //% blockId=scan_alphabet_result block="Scan Alphabet Get Result"
-    //% group="Scan Alphabet" color="#763335" weight=1201
+    //% group="Scan Alphabet" color="#763335" weight=1301
     export function ScanAlphabetGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
@@ -576,7 +614,7 @@ namespace asparaCamera {
     * Scan QR/BarCode Get Result
     */
     //% blockId=scan_qr_bar_code_result block="Scan QR/BarCode Get Result"
-    //% group="Scan QR/BarCode" color="#095913" weight=1301
+    //% group="Scan QR/BarCode" color="#095913" weight=1401
     export function ScanQRBarCodeGetResult(): string {
         // For this case, don't use the lock mechanism to speed up the response
         let lastResultcpy = lastResult
@@ -591,7 +629,7 @@ namespace asparaCamera {
     * @param angle Angle to set the LCD view
     */
     //% blockId=set_lcd_view_angle block="Set LCD View Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1405
+    //% group="Miscellaneous" color="#0d0476" weight=1505
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
@@ -606,7 +644,7 @@ namespace asparaCamera {
     * @param angle Angle to rotate the camera
     */
     //% blockId=set_camera_rotation_angle block="Set Camera Rotation Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1404
+    //% group="Miscellaneous" color="#0d0476" weight=1504
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_camera_rotation_angle(angle: CameraRotationAngleEnum): void {
@@ -621,7 +659,7 @@ namespace asparaCamera {
     * @param name Name of the photo file
     */
     //% blockId=take_photo block="Take a Photo with name %name"
-    //% group="Miscellaneous" color="#0d0476" weight=1403
+    //% group="Miscellaneous" color="#0d0476" weight=1503
     export function asparaCameraTakePhoto(name: string): void {
         serial.writeLine("take photo with name: \"" + name + "\"")
     }
@@ -641,7 +679,7 @@ namespace asparaCamera {
     * @param msg message to print to USB Serial
     */
     //% blockId=print_to_usb_serial block="Print to USB Serial %msg"
-    //% group="Miscellaneous" color="#0d0476" weight=1402
+    //% group="Miscellaneous" color="#0d0476" weight=1502
     export function asparaCameraPrintToUSBSerial(msg: string): void {
         if(!usbSerialLock) {
             usbSerialLock = true
@@ -667,7 +705,7 @@ namespace asparaCamera {
     * @param password Password of the WiFi network
     */
     //% blockId=set_wifi_credentials block="Set WiFi SSID %ssid and Password %password"
-    //% group="Miscellaneous" color="#0d0476" weight=1401
+    //% group="Miscellaneous" color="#0d0476" weight=1501
     export function set_wifi_credentials(ssid: string, password: string): void {
         serial.writeLine("wifi:[" + ssid + ", " + password + "]")
     }
