@@ -450,7 +450,7 @@ namespace asparaCamera {
     //% blockId=custom_model_set_model block="Set Custom Model Name: %model"
     //% group="Custom Model Image Classification" color="#205e87" weight=702
     export function CustomModelImageClassificationSetModel(model: string): void {
-        serial.writeLine("model name:" + model);
+        serial.writeLine("custom model name:" + model);
     }
 
     /**
