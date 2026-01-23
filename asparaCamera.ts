@@ -198,19 +198,10 @@ namespace asparaCamera {
     }
 
     /**
-    * Result Ready
-    */
-    //% blockId=result_ready block="Result Ready"
-    //% group="Basic" color="#00AAA0" weight=102
-    export function ResultReady(): boolean {
-        return newdata;
-    }
-
-    /**
     * Camera Connected
     */
     //% blockId=camera_connected block="Camera Connected"
-    //% group="Basic" color="#00AAA0" weight=101
+    //% group="Basic" color="#00AAA0" weight=102
     export function CameraConnected(): boolean {
         pingpongResult = "";
         let randomNum = Math.floor(Math.random() * (9999 - 1000 + 1) + 1000).toString();
@@ -226,6 +217,15 @@ namespace asparaCamera {
             basic.pause(50);
         }
         return false;
+    }
+
+    /**
+    * Result Ready
+    */
+    //% blockId=result_ready block="Result Ready"
+    //% group="Basic" color="#00AAA0" weight=101
+    export function ResultReady(): boolean {
+        return newdata;
     }
 
     /***********************************************************************************************************************/
