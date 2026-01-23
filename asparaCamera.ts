@@ -100,7 +100,7 @@ namespace asparaCamera {
      * @param rx Rx pin; eg: SerialPin.P1
      */
     //% blockId=asparaCamera_init block="asparaCamera init tx %tx rx %rx"
-    //% group="Basic" color="#00AAA0" weight=103
+    //% group="Basic" color="#00AAA0" weight=104
     export function asparaCameraInit(tx: SerialPin, rx: SerialPin): void {
         assignedRx = rx;
         assignedTx = tx;
@@ -147,7 +147,7 @@ namespace asparaCamera {
     * Select the operation mode of asparaCamera
     */
     //% blockId=asparaCamera_select_mode block="Select Mode %func"
-    //% group="Basic" color="#00AAA0" weight=102
+    //% group="Basic" color="#00AAA0" weight=103
     //% func.fieldEditor="gridpicker"
     //% func.fieldOptions.columns=3
     export function selectMode(func: ModeEnum): void {
@@ -201,7 +201,7 @@ namespace asparaCamera {
     * Result Ready
     */
     //% blockId=result_ready block="Result Ready"
-    //% group="Basic" color="#00AAA0" weight=101
+    //% group="Basic" color="#00AAA0" weight=102
     export function ResultReady(): boolean {
         return newdata;
     }
