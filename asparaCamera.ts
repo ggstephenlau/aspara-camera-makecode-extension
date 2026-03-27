@@ -69,6 +69,27 @@ namespace asparaCamera {
         Height
     }
 
+    export enum ConfidenceLevelEnum {
+        //% block="0.1"
+        _0_1 = 1,
+        //% block="0.2"
+        _0_2 = 2,
+        //% block="0.3"
+        _0_3 = 3,
+        //% block="0.4"
+        _0_4 = 4,
+        //% block="0.5"
+        _0_5 = 5,
+        //% block="0.6"
+        _0_6 = 6,
+        //% block="0.7"
+        _0_7 = 7,
+        //% block="0.8"
+        _0_8 = 8,
+        //% block="0.9"
+        _0_9 = 9
+    }
+
     export enum LcdViewAngleEnum {
         //% block="0°"
         Angle0 = 0,
@@ -659,7 +680,7 @@ namespace asparaCamera {
     * @param angle Angle to set the LCD view
     */
     //% blockId=set_lcd_view_angle block="Set LCD View Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1505
+    //% group="Miscellaneous" color="#0d0476" weight=1508
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
@@ -674,11 +695,72 @@ namespace asparaCamera {
     * @param angle Angle to rotate the camera
     */
     //% blockId=set_camera_rotation_angle block="Set Camera Rotation Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1504
+    //% group="Miscellaneous" color="#0d0476" weight=1507
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_camera_rotation_angle(angle: CameraRotationAngleEnum): void {
         serial.writeLine("camera_rotation_angle:" + angle)
+    }
+
+    /**
+    * Set detection conference level, the higher the value, the more strict the detection will be. Valid value is 0.1-0.9, default is 0.5
+    */
+    //% blockId=asparaCamera_set_confidence_level block="Set Confidence Level %level"
+    //% group="Miscellaneous" color="#0d0476" weight=1506
+    //% level.min=0.1 level.max=0.9
+    //% level.defl=_0_5
+    export function SetConfidenceLevel(level: ConfidenceLevelEnum = ConfidenceLevelEnum._0_5): void {
+        let confLevel = "";
+
+        switch(level) {
+            case ConfidenceLevelEnum._0_1:
+                confLevel = "0.1";
+                break;
+            case ConfidenceLevelEnum._0_2:
+                confLevel = "0.2";
+                break;
+            case ConfidenceLevelEnum._0_3:
+                confLevel = "0.3";
+                break;
+            case ConfidenceLevelEnum._0_4:
+                confLevel = "0.4";
+                break;
+            case ConfidenceLevelEnum._0_5:
+                confLevel = "0.5";
+                break;
+            case ConfidenceLevelEnum._0_6:
+                confLevel = "0.6";
+                break;
+            case ConfidenceLevelEnum._0_7:
+                confLevel = "0.7";
+                break;
+            case ConfidenceLevelEnum._0_8:
+                confLevel = "0.8";
+                break;
+            case ConfidenceLevelEnum._0_9:
+                confLevel = "0.9";
+                break;
+
+        }
+        serial.writeLine("set confidence level " + confLevel)
+    }
+
+    /**
+    * Increase detection conference level by 0.1, maximum is 0.9, the higher the value, the more strict the detection will be.
+    */
+    //% blockId=asparaCamera_increase_confidence_level block="Increase Confidence Level"
+    //% group="Miscellaneous" color="#0d0476" weight=1505
+    export function IncreaseConfidenceLevel(): void {
+         serial.writeLine("increase confidence level")
+    }
+
+    /**
+    * Decrease detection conference level by 0.1, minimum is 0.1, the lower the value, the less strict the detection will be.
+    */
+    //% blockId=asparaCamera_decrease_confidence_level block="Decrease Confidence Level"
+    //% group="Miscellaneous" color="#0d0476" weight=1504
+    export function DecreaseConfidenceLevel(): void {
+         serial.writeLine("decrease confidence level")
     }
 
     /***********************************************************************************************************************/
