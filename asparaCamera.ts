@@ -28,12 +28,12 @@ namespace asparaCamera {
         PlantDiagnosis,
         //% block="Green/Red Lettuce Classification"
         GreenRedLettuceClassification,
-        //% block="Custom Model Image Classification"
-        CustomModelImageClassification,
-        //% block="Object Classification"
-        ObjectClassification,
+        //% block="Custom Model"
+        CustomModel,
         //% block="Image Classification"
         ImageClassification,
+        //% block="Custom Image Classification"
+        CustomImageClassification,
         //% block="Face Detection"
         FaceDetection,
         //% block="Facial Expression Detection"
@@ -191,13 +191,13 @@ namespace asparaCamera {
             case ModeEnum.GreenRedLettuceClassification:
                 serial.writeLine("start green red")
                 break;
-            case ModeEnum.CustomModelImageClassification:
-                serial.writeLine("start custom model image classification")
-                break;
-            case ModeEnum.ObjectClassification:
-                serial.writeLine("start classify")
+            case ModeEnum.CustomModel:
+                serial.writeLine("start custom model")
                 break;
             case ModeEnum.ImageClassification:
+                serial.writeLine("start classify")
+                break;
+            case ModeEnum.CustomImageClassification:
                 serial.writeLine("start runtime classification")
                 break;
             case ModeEnum.FaceDetection:
@@ -492,24 +492,24 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Custom Model Image Classification                                                                                   */
+    /* Custom Model                                                                                                        */
     /***********************************************************************************************************************/
     /**
-     * Sets the custom model name for the Custom Model Image Classification.
+     * Sets the custom model name for the Custom Model.
      * @param model The name of the custom model to set.
      */
     //% blockId=custom_model_set_model block="Set Custom Model Name: %model"
-    //% group="Custom Model Image Classification" color="#205e87" weight=702
-    export function CustomModelImageClassificationSetModel(model: string): void {
+    //% group="Custom Model" color="#205e87" weight=702
+    export function CustomModelSetModel(model: string): void {
         serial.writeLine("custom model name:" + model);
     }
 
     /**
-    * Custom Model Image Classification Get Result
+    * Custom Model Get Result
     */
-    //% blockId=custom_model_result block="Custom Model Image Classification Get Result"
-    //% group="Custom Model Image Classification" color="#205e87" weight=701
-    export function CustomModelImageClassificationGetResult(): string {
+    //% blockId=custom_model_result block="Custom Model Get Result"
+    //% group="Custom Model" color="#205e87" weight=701
+    export function CustomModelGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -525,14 +525,14 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Object Classification.                                                                                              */
+    /* Image Classification.                                                                                              */
     /***********************************************************************************************************************/
     /**
-    * Object Classification Get Result
+    * Image Classification Get Result
     */
-    //% blockId=object_classification_result block="Object Classification Get Result"
-    //% group="Object Classification" color="#7a53e6" weight=801
-    export function ObjectClassificationGetResult(): string {
+    //% blockId=image_classification_result block="Image Classification Get Result"
+    //% group="Image Classification" color="#7a53e6" weight=801
+    export function ImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -548,33 +548,33 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Image Classification                                                                                                */
+    /* Custom Image Classification                                                                                                */
     /***********************************************************************************************************************/
     /**
-     * Adds a custom label to an image in the Image Classification.
+     * Adds a custom label to an image in the Custom Image Classification.
      * @param label The arbitrary name to associate with the captured image.
      */
-    //% blockId=image_classification_add_label block="Capture Image With Label #%label"
-    //% group="Image Classification" color="#0c9eed" weight=903
-    export function ImageClassificationAddLabel(label: string): void {
+    //% blockId=custom_image_classification_add_label block="Capture Image With Label #%label"
+    //% group="Custom Image Classification" color="#0c9eed" weight=903
+    export function CustomImageClassificationAddLabel(label: string): void {
         serial.writeLine("tag #" + label);
     }
 
     /**
-    * Image classification clear all labels
+    * Custom Image Classification clear all labels
     */
-    //% blockId=image_classification_clear_all_labels block="Image Classification Clear All Labels"
-    //% group="Image Classification" color="#0c9eed" weight=902
-    export function ImageClassificationClearAllLabel(): void {
+    //% blockId=custom_image_classification_clear_all_labels block="Custom Image Classification Clear All Labels"
+    //% group="Custom Image Classification" color="#0c9eed" weight=902
+    export function CustomImageClassificationClearAllLabel(): void {
         serial.writeLine("tag #reset");
     }
 
     /**
-    * Image classification Get Result
+    * Custom Image Classification Get Result
     */
-    //% blockId=image_classification_read_label block="Image Classification Get Result"
-    //% group="Image Classification" color="#0c9eed" weight=901
-    export function ImageClassificationGetResult(): string {
+    //% blockId=custom_image_classification_read_label block="Custom Image Classification Get Result"
+    //% group="Custom Image Classification" color="#0c9eed" weight=901
+    export function CustomImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };

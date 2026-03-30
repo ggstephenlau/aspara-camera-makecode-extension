@@ -77,27 +77,27 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 
 * Demo: https://makecode.microbit.org/S57813-64135-25137-48434
 
-## [Mode] Object Classifcation
-* General Object Classification and return the name of the detected object.
+## [Mode] Image Classifcation
+* General Image Classification and return the name of the detected object.
 
 * Demo: https://makecode.microbit.org/S42923-67730-61115-17309
 
-## [Mode] Image Classification
+## [Mode] Custom Image Classification
 * To detect the user labelled ojects on the display and return the label of the result.
 
 * You could use the <B><I><span style="color: cyan;">"Capture Image with Label"</span></I></B> block to add an image on the display with the input label.
 
     E.g.
 
-    <img src="./pngs/proj_image_classification_add_label.png" width = "auto" height=80>
+    <img src="./pngs/proj_custom_image_classification_add_label.png" width = "auto" height=80>
     
     would add the image on the display with label "apple" when button "A" is pressed.
 
-* You could use the <B><I><span style="color: cyan;">"Image Classfication Clear All Labels"</span></I></B> block to clear all labels.
+* You could use the <B><I><span style="color: cyan;">"Custom Image Classfication Clear All Labels"</span></I></B> block to clear all labels.
 
     E.g.
 
-    <img src="./pngs/proj_image_classification_clear_all_labels.png" width = "auto" height=80>
+    <img src="./pngs/proj_custom_image_classification_clear_all_labels.png" width = "auto" height=80>
     
     would clear all labels when button "A+B" is pressed.
 
@@ -113,8 +113,8 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 
 * Demo: https://makecode.microbit.org/S47076-23103-19746-57899
 
-## [Mode] Custom Model Image classification
-* Detect the custom objects in the user model
+## [Mode] Custom Model
+* Perform custom object detection or image classification
 
 * Demo: https://makecode.microbit.org/S25031-48926-03975-79534
     * To make your own models, use any of the methods below:
@@ -137,13 +137,14 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 
 * Demo: https://makecode.microbit.org/S70205-94493-05894-36101
 
-## Set WiFi Credentials
-* Set the WiFi SSID and password
+## Test Serial Port Connection
+* To test the serial port connection
 
 * Demo: https://makecode.microbit.org/S13281-72802-37846-52575
 
 ## Set Camera and Device Display Orientation Angles
 * By setting the Camera and the Device LCD display Orientation Angles (0°, 90°, 180° or 270°), you could capture and display correctly with different device orientations.
+
 * Demo: https://makecode.microbit.org/S11434-96710-16483-90767
 
 ## Take User Photo Demo
