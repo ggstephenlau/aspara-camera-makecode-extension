@@ -60,10 +60,10 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 
     <img src="./pngs/proj_color_tracking_select_color.png" width="auto" height=80/> <img src="./pngs/proj_color_tracking_select_predefined_color.png" width = "auto" height=80>
 
-* Demo: https://makecode.microbit.org/S24837-51094-76361-54804
+* Demo: https://makecode.microbit.org/S22921-36965-64089-94997
 
 ## [Mode] Object Detection
-* General Oject detection and return the number of detected objects.
+* General Object detection and return the number of detected objects.
 
 * Demo: https://makecode.microbit.org/S58563-16833-87646-54598
 
@@ -73,7 +73,7 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 * Demo: https://makecode.microbit.org/S54546-52129-52097-99486
 
 ## [Mode] Green/Red Lettuce Classification
-* To detect the plant is Green lettuce or Red lettuce, and it returns "Green" or "Red"
+* Detect the plant is Green lettuce or Red lettuce, and it returns "Green" or "Red"
 
 * Demo: https://makecode.microbit.org/S57813-64135-25137-48434
 
@@ -83,7 +83,7 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 * Demo: https://makecode.microbit.org/S42923-67730-61115-17309
 
 ## [Mode] Custom Image Classification
-* To detect the user labelled ojects on the display and return the label of the result.
+* Detect the user labelled objects on the display and return the label of the result.
 
 * You could use the <B><I><span style="color: cyan;">"Capture Image with Label"</span></I></B> block to add an image on the display with the input label.
 
@@ -114,12 +114,12 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 * Demo: https://makecode.microbit.org/S47076-23103-19746-57899
 
 ## [Mode] Custom Model
-* Perform custom object detection or image classification
+* Perform custom object detection or image classification with a user-trained model.
 
 * Demo: https://makecode.microbit.org/S25031-48926-03975-79534
     * To make your own models, use any of the methods below:
-        1. [Using aspara Camera To Create Custom Image Classification Model By Teachable Machine](./docs/Using_aspara_Camera_To_Create_Custom_Image_Classification_Model_By_Teachable_Machine.md) 
-        2. [Using aspara Camera To Create Custom Image Classification Model By Google Colab](./docs/Using_aspara_Camera_To_Create_Custom_Image_Classification_Model_By_Google_Colab.md)
+        1. [Use aspara Camera to capture images and create an Image Classification Model with Teachable Machine](./docs/Using_aspara_Camera_To_Create_Custom_Image_Classification_Model_By_Teachable_Machine.md) 
+        2. [Use aspara Camera to capture images and create an Image Classification Model with Google Colab](./docs/Using_aspara_Camera_To_Create_Custom_Image_Classification_Model_By_Google_Colab.md)
     
 
 ## [Mode] Scan Number
@@ -138,7 +138,12 @@ This is the micro:bit MakeCode Extension for controlling the aspara Camera by [G
 * Demo: https://makecode.microbit.org/S70205-94493-05894-36101
 
 ## Test Serial Port Connection
-* To test the serial port connection
+* Test the serial port connection
+
+* Demo: https://makecode.microbit.org/S69847-50912-18064-90579
+
+## Set WiFi Credentials
+* Set the WiFi SSID and password
 
 * Demo: https://makecode.microbit.org/S13281-72802-37846-52575
 
