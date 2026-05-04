@@ -680,7 +680,7 @@ namespace asparaCamera {
     * @param angle Angle to set the LCD view
     */
     //% blockId=set_lcd_view_angle block="Set LCD View Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1508
+    //% group="Miscellaneous" color="#0d0476" weight=1509
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
@@ -695,7 +695,7 @@ namespace asparaCamera {
     * @param angle Angle to rotate the camera
     */
     //% blockId=set_camera_rotation_angle block="Set Camera Rotation Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1507
+    //% group="Miscellaneous" color="#0d0476" weight=1508
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_camera_rotation_angle(angle: CameraRotationAngleEnum): void {
@@ -706,7 +706,7 @@ namespace asparaCamera {
     * Set detection conference level, the higher the value, the more strict the detection will be. Valid value is 0.1-0.9, default is 0.5
     */
     //% blockId=asparaCamera_set_confidence_level block="Set Confidence Level %level"
-    //% group="Miscellaneous" color="#0d0476" weight=1506
+    //% group="Miscellaneous" color="#0d0476" weight=1507
     //% level.min=0.1 level.max=0.9
     //% level.defl=_0_5
     export function SetConfidenceLevel(level: ConfidenceLevelEnum = ConfidenceLevelEnum._0_5): void {
@@ -749,7 +749,7 @@ namespace asparaCamera {
     * Increase detection conference level by 0.1, maximum is 0.9, the higher the value, the more strict the detection will be.
     */
     //% blockId=asparaCamera_increase_confidence_level block="Increase Confidence Level"
-    //% group="Miscellaneous" color="#0d0476" weight=1505
+    //% group="Miscellaneous" color="#0d0476" weight=1506
     export function IncreaseConfidenceLevel(): void {
          serial.writeLine("increase confidence level")
     }
@@ -758,7 +758,7 @@ namespace asparaCamera {
     * Decrease detection conference level by 0.1, minimum is 0.1, the lower the value, the less strict the detection will be.
     */
     //% blockId=asparaCamera_decrease_confidence_level block="Decrease Confidence Level"
-    //% group="Miscellaneous" color="#0d0476" weight=1504
+    //% group="Miscellaneous" color="#0d0476" weight=1505
     export function DecreaseConfidenceLevel(): void {
          serial.writeLine("decrease confidence level")
     }
@@ -771,9 +771,21 @@ namespace asparaCamera {
     * @param name Name of the photo file
     */
     //% blockId=take_photo block="Take a Photo with name %name"
-    //% group="Miscellaneous" color="#0d0476" weight=1503
+    //% group="Miscellaneous" color="#0d0476" weight=1504
     export function asparaCameraTakePhoto(name: string): void {
         serial.writeLine("take photo with name: \"" + name + "\"")
+    }
+
+    /***********************************************************************************************************************/
+    /* Take a raw Photo.                                                                                                   */
+    /***********************************************************************************************************************/
+    /**
+    * Take a raw Photo"
+    */
+    //% blockId=take_raw_photo block="Take a Raw Photo"
+    //% group="Miscellaneous" color="#0d0476" weight=1503
+    export function asparaCameraTakeRawPhoto(): void {
+        serial.writeLine("take raw photo")
     }
 
     function usbSendMsg(msg: string): void {
