@@ -28,12 +28,12 @@ namespace asparaCamera {
         PlantDiagnosis,
         //% block="Green/Red Lettuce Classification"
         GreenRedLettuceClassification,
-        //% block="Custom Model Image Classification"
-        CustomModelImageClassification,
-        //% block="Object Classification"
-        ObjectClassification,
+        //% block="Custom Model"
+        CustomModel,
         //% block="Image Classification"
         ImageClassification,
+        //% block="Custom Image Classification"
+        CustomImageClassification,
         //% block="Face Detection"
         FaceDetection,
         //% block="Facial Expression Detection"
@@ -67,6 +67,27 @@ namespace asparaCamera {
         Y,
         Width,
         Height
+    }
+
+    export enum ConfidenceLevelEnum {
+        //% block="0.1"
+        _0_1 = 1,
+        //% block="0.2"
+        _0_2 = 2,
+        //% block="0.3"
+        _0_3 = 3,
+        //% block="0.4"
+        _0_4 = 4,
+        //% block="0.5"
+        _0_5 = 5,
+        //% block="0.6"
+        _0_6 = 6,
+        //% block="0.7"
+        _0_7 = 7,
+        //% block="0.8"
+        _0_8 = 8,
+        //% block="0.9"
+        _0_9 = 9
     }
 
     export enum LcdViewAngleEnum {
@@ -170,13 +191,13 @@ namespace asparaCamera {
             case ModeEnum.GreenRedLettuceClassification:
                 serial.writeLine("start green red")
                 break;
-            case ModeEnum.CustomModelImageClassification:
-                serial.writeLine("start custom model image classification")
-                break;
-            case ModeEnum.ObjectClassification:
-                serial.writeLine("start classify")
+            case ModeEnum.CustomModel:
+                serial.writeLine("start custom model")
                 break;
             case ModeEnum.ImageClassification:
+                serial.writeLine("start classify")
+                break;
+            case ModeEnum.CustomImageClassification:
                 serial.writeLine("start runtime classification")
                 break;
             case ModeEnum.FaceDetection:
@@ -471,24 +492,24 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Custom Model Image Classification                                                                                   */
+    /* Custom Model                                                                                                        */
     /***********************************************************************************************************************/
     /**
-     * Sets the custom model name for the Custom Model Image Classification.
+     * Sets the custom model name for the Custom Model.
      * @param model The name of the custom model to set.
      */
     //% blockId=custom_model_set_model block="Set Custom Model Name: %model"
-    //% group="Custom Model Image Classification" color="#205e87" weight=702
-    export function CustomModelImageClassificationSetModel(model: string): void {
+    //% group="Custom Model" color="#205e87" weight=702
+    export function CustomModelSetModel(model: string): void {
         serial.writeLine("custom model name:" + model);
     }
 
     /**
-    * Custom Model Image Classification Get Result
+    * Custom Model Get Result
     */
-    //% blockId=custom_model_result block="Custom Model Image Classification Get Result"
-    //% group="Custom Model Image Classification" color="#205e87" weight=701
-    export function CustomModelImageClassificationGetResult(): string {
+    //% blockId=custom_model_result block="Custom Model Get Result"
+    //% group="Custom Model" color="#205e87" weight=701
+    export function CustomModelGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -504,14 +525,14 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Object Classification.                                                                                              */
+    /* Image Classification.                                                                                              */
     /***********************************************************************************************************************/
     /**
-    * Object Classification Get Result
+    * Image Classification Get Result
     */
-    //% blockId=object_classification_result block="Object Classification Get Result"
-    //% group="Object Classification" color="#7a53e6" weight=801
-    export function ObjectClassificationGetResult(): string {
+    //% blockId=image_classification_result block="Image Classification Get Result"
+    //% group="Image Classification" color="#7a53e6" weight=801
+    export function ImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -527,33 +548,33 @@ namespace asparaCamera {
     }
 
     /***********************************************************************************************************************/
-    /* Image Classification                                                                                                */
+    /* Custom Image Classification                                                                                                */
     /***********************************************************************************************************************/
     /**
-     * Adds a custom label to an image in the Image Classification.
+     * Adds a custom label to an image in the Custom Image Classification.
      * @param label The arbitrary name to associate with the captured image.
      */
-    //% blockId=image_classification_add_label block="Capture Image With Label #%label"
-    //% group="Image Classification" color="#0c9eed" weight=903
-    export function ImageClassificationAddLabel(label: string): void {
+    //% blockId=custom_image_classification_add_label block="Capture Image With Label #%label"
+    //% group="Custom Image Classification" color="#0c9eed" weight=903
+    export function CustomImageClassificationAddLabel(label: string): void {
         serial.writeLine("tag #" + label);
     }
 
     /**
-    * Image classification clear all labels
+    * Custom Image Classification clear all labels
     */
-    //% blockId=image_classification_clear_all_labels block="Image Classification Clear All Labels"
-    //% group="Image Classification" color="#0c9eed" weight=902
-    export function ImageClassificationClearAllLabel(): void {
+    //% blockId=custom_image_classification_clear_all_labels block="Custom Image Classification Clear All Labels"
+    //% group="Custom Image Classification" color="#0c9eed" weight=902
+    export function CustomImageClassificationClearAllLabel(): void {
         serial.writeLine("tag #reset");
     }
 
     /**
-    * Image classification Get Result
+    * Custom Image Classification Get Result
     */
-    //% blockId=image_classification_read_label block="Image Classification Get Result"
-    //% group="Image Classification" color="#0c9eed" weight=901
-    export function ImageClassificationGetResult(): string {
+    //% blockId=custom_image_classification_read_label block="Custom Image Classification Get Result"
+    //% group="Custom Image Classification" color="#0c9eed" weight=901
+    export function CustomImageClassificationGetResult(): string {
         let ret = ""
         readNewdata = true;
         while(lock){ basic.pause(1); };
@@ -659,7 +680,7 @@ namespace asparaCamera {
     * @param angle Angle to set the LCD view
     */
     //% blockId=set_lcd_view_angle block="Set LCD View Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1505
+    //% group="Miscellaneous" color="#0d0476" weight=1508
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_lcd_view_angle(angle: LcdViewAngleEnum): void {
@@ -674,11 +695,72 @@ namespace asparaCamera {
     * @param angle Angle to rotate the camera
     */
     //% blockId=set_camera_rotation_angle block="Set Camera Rotation Angle %angle"
-    //% group="Miscellaneous" color="#0d0476" weight=1504
+    //% group="Miscellaneous" color="#0d0476" weight=1507
     //% angle.fieldEditor="gridpicker"
     //% angle.fieldOptions.columns=1
     export function set_camera_rotation_angle(angle: CameraRotationAngleEnum): void {
         serial.writeLine("camera_rotation_angle:" + angle)
+    }
+
+    /**
+    * Set detection conference level, the higher the value, the more strict the detection will be. Valid value is 0.1-0.9, default is 0.5
+    */
+    //% blockId=asparaCamera_set_confidence_level block="Set Confidence Level %level"
+    //% group="Miscellaneous" color="#0d0476" weight=1506
+    //% level.min=0.1 level.max=0.9
+    //% level.defl=_0_5
+    export function SetConfidenceLevel(level: ConfidenceLevelEnum = ConfidenceLevelEnum._0_5): void {
+        let confLevel = "";
+
+        switch(level) {
+            case ConfidenceLevelEnum._0_1:
+                confLevel = "0.1";
+                break;
+            case ConfidenceLevelEnum._0_2:
+                confLevel = "0.2";
+                break;
+            case ConfidenceLevelEnum._0_3:
+                confLevel = "0.3";
+                break;
+            case ConfidenceLevelEnum._0_4:
+                confLevel = "0.4";
+                break;
+            case ConfidenceLevelEnum._0_5:
+                confLevel = "0.5";
+                break;
+            case ConfidenceLevelEnum._0_6:
+                confLevel = "0.6";
+                break;
+            case ConfidenceLevelEnum._0_7:
+                confLevel = "0.7";
+                break;
+            case ConfidenceLevelEnum._0_8:
+                confLevel = "0.8";
+                break;
+            case ConfidenceLevelEnum._0_9:
+                confLevel = "0.9";
+                break;
+
+        }
+        serial.writeLine("set confidence level " + confLevel)
+    }
+
+    /**
+    * Increase detection conference level by 0.1, maximum is 0.9, the higher the value, the more strict the detection will be.
+    */
+    //% blockId=asparaCamera_increase_confidence_level block="Increase Confidence Level"
+    //% group="Miscellaneous" color="#0d0476" weight=1505
+    export function IncreaseConfidenceLevel(): void {
+         serial.writeLine("increase confidence level")
+    }
+
+    /**
+    * Decrease detection conference level by 0.1, minimum is 0.1, the lower the value, the less strict the detection will be.
+    */
+    //% blockId=asparaCamera_decrease_confidence_level block="Decrease Confidence Level"
+    //% group="Miscellaneous" color="#0d0476" weight=1504
+    export function DecreaseConfidenceLevel(): void {
+         serial.writeLine("decrease confidence level")
     }
 
     /***********************************************************************************************************************/
